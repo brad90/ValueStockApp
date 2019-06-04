@@ -23,12 +23,22 @@ CompanyCalculations.prototype.getEachCompaniesInfo = function (){
       requestCompanyData.get()
       .then((data) => {
         data["id"] = company._id
-        console.log("has the datat been added", data);
-        // this.calculateCompanyPE({data)
+        this.calculateCompanyPE(data)
+        this.calculateCompanyPB(data)
       })
     })
   })
 }
 
+
+CompanyCalculations.prototype.calculateCompanyPE = function(data){
+  const companyPE = data.ratios.map(year => year.investmentValuationRatios.priceEarningsRatio)
+  return companyPE
+}
+
+CompanyCalculations.prototype.calculateCompanyPB = function(data){
+  const companyPB = data.ratios.map(year => year.investmentValuationRatios.priceToBookRatio)
+  return companyPB
+}
 
 module.exports = CompanyCalculations;

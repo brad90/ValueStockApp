@@ -5,7 +5,7 @@ const FullCompanyData = require('./models/all_company_data.js')
 
 document.addEventListener("DOMContentLoaded",() => {
 
-  const historicalStockInfo = 'https://financialmodelingprep.com/api/v3/financials/income-statement/'
+  const historicalStockInfo = 'https://financialmodelingprep.com/api/v3/financial-ratios/'
   const fullCompanyData = new FullCompanyData(historicalStockInfo)
   fullCompanyData.bindEvents();
 
