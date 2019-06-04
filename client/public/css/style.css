@@ -1,0 +1,35 @@
+*{
+  margin: 0;
+}
+
+@font-face {
+font-family: "LeagueSpartan";
+src: url("css/fonts/LeagueSpartan-Bold.otf");
+}
+
+button{
+  cursor: pointer;
+}
+
+html{
+  height:100%;
+  width:100%;
+
+  background-color: #f6f6f6
+}
+
+body{
+  padding: 5% 10%;
+}
+
+button{
+  background-color: #21ce99;
+  color:white;
+  outline: none;
+  border:none;
+}
+
+h1{
+  font-family:"LeagueSpartan";
+  font-size:4rem;
+}

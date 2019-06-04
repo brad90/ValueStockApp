@@ -1,0 +1,37 @@
+@font-face {
+font-family: "LeagueSpartan";
+src: url("css/fonts/LeagueSpartan-Bold.otf");
+};
+
+#company-grid-summary{
+  display: block;
+  border: 2px solid black;
+  width:100%;
+}
+
+.company-summary-box{
+  border:2px solid black;
+  width:20rem;
+  height:20rem;
+  margin: 5% 0%;
+  padding: 2rem;
+
+  background-color: white;
+}
+
+.company-summary-box h2{
+  font-family: "LeagueSpartan";
+  font-size: 2.3rem;
+}
+
+.box-summary-read-more-button{
+  padding:0.5rem;
+  width: 20rem;
+  font-size: 1.5rem;
+}
+
+.company-graph{
+  border:2px solid black;
+  width:100%;
+  height:75%;
+}
