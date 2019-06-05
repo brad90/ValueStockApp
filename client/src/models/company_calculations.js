@@ -22,9 +22,12 @@ CompanyCalculations.prototype.getEachCompaniesInfo = function (){
       const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
       requestCompanyData.get()
       .then((data) => {
-        data["id"] = company._id
-        this.calculateCompanyPE(data)
-        this.calculateCompanyPB(data)
+        data["id"] = company._id;
+        data["PE"] = this.calculateCompanyPE(data)
+        data["PB"] = this.calculateCompanyPB(data)
+        data["ROE"] = this.calculateCompanyROE(data)
+        data["DE"] = this.calculateCompanyDE(data)
+        console.log(data);
       })
     })
   })
@@ -32,13 +35,48 @@ CompanyCalculations.prototype.getEachCompaniesInfo = function (){
 
 
 CompanyCalculations.prototype.calculateCompanyPE = function(data){
-  const companyPE = data.ratios.map(year => year.investmentValuationRatios.priceEarningsRatio)
-  return companyPE
-}
+  console.log(data);
+  const CompanyYearlyPE = []
+  data.ratios.forEach(function(year){
+    const PEratioYearly = { }
+    PEratioYearly['date'] =  year.date
+    PEratioYearly['PE'] =  year.investmentValuationRatios.priceEarningsRatio
+    CompanyYearlyPE.push (PEratioYearly)
+  })
+  return  CompanyYearlyPE
+};
 
 CompanyCalculations.prototype.calculateCompanyPB = function(data){
-  const companyPB = data.ratios.map(year => year.investmentValuationRatios.priceToBookRatio)
-  return companyPB
-}
+  const CompanyYearlyPB = []
+  data.ratios.forEach(function(year){
+    const PBratioYearly = { }
+    PBratioYearly['date'] =  year.date
+    PBratioYearly['PB'] =  year.investmentValuationRatios.priceToBookRatio
+    CompanyYearlyPB.push (PBratioYearly)
+  })
+  return CompanyYearlyPB
+};
+
+CompanyCalculations.prototype.calculateCompanyROE = function(data){
+  const CompanyYearlyROE = []
+  data.ratios.forEach(function(year){
+    const ROEratioYearly = { }
+    ROEratioYearly['date'] =  year.date
+    ROEratioYearly['ROE'] =  year.profitabilityIndicatorRatios.returnOnEquity
+    CompanyYearlyROE.push (ROEratioYearly)
+  })
+  return CompanyYearlyROE
+};
+
+CompanyCalculations.prototype.calculateCompanyDE = function(data){
+  const CompanyYearlyDE = []
+  data.ratios.forEach(function(year){
+    const DEratioYearly = { }
+    DEratioYearly['date'] =  year.date
+    DEratioYearly['DE'] =  year.debtRatios.debtEquityRatio
+    CompanyYearlyDE.push (DEratioYearly)
+  })
+  return CompanyYearlyDE
+};
 
 module.exports = CompanyCalculations;
