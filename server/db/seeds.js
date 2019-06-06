@@ -54,12 +54,6 @@ db.stocks.insertMany([
       "ticker": "AMOV",
     },
     {
-      "ticker": "AMX",
-    },
-    {
-      "ticker": "AEP",
-    },
-    {
       "ticker": "AXP",
     },
     {
@@ -121,9 +115,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "AGR",
-    },
-    {
-      "ticker": "EQH",
     },
     {
       "ticker": "BLL",
@@ -195,9 +186,6 @@ db.stocks.insertMany([
       "ticker": "CP",
     },
     {
-      "ticker": "CGC",
-    },
-    {
       "ticker": "COF",
     },
     {
@@ -208,9 +196,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "CCL",
-    },
-    {
-      "ticker": "CUK",
     },
     {
       "ticker": "CAT",
@@ -276,9 +261,6 @@ db.stocks.insertMany([
       "ticker": "CAG",
     },
     {
-      "ticker": "CXO",
-    },
-    {
       "ticker": "COP",
     },
     {
@@ -300,9 +282,6 @@ db.stocks.insertMany([
       "ticker": "CMI",
     },
     {
-      "ticker": "CVS",
-    },
-    {
       "ticker": "DHI",
     },
     {
@@ -310,12 +289,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "DRI",
-    },
-    {
-      "ticker": "DE",
-    },
-    {
-      "ticker": "DAL",
     },
     {
       "ticker": "DVN",
@@ -336,9 +309,6 @@ db.stocks.insertMany([
       "ticker": "DPZ",
     },
     {
-      "ticker": "DOV",
-    },
-    {
       "ticker": "DTE",
     },
     {
@@ -354,12 +324,6 @@ db.stocks.insertMany([
       "ticker": "EIX",
     },
     {
-      "ticker": "EW",
-    },
-    {
-      "ticker": "ELAN",
-    },
-    {
       "ticker": "LLY",
     },
     {
@@ -369,16 +333,10 @@ db.stocks.insertMany([
       "ticker": "ENB",
     },
     {
-      "ticker": "ET",
-    },
-    {
       "ticker": "ETR",
     },
     {
       "ticker": "EPD",
-    },
-    {
-      "ticker": "EOG",
     },
     {
       "ticker": "EFX",
@@ -418,9 +376,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "FDC",
-    },
-    {
-      "ticker": "FRC",
     },
     {
       "ticker": "FE",
@@ -504,9 +459,6 @@ db.stocks.insertMany([
       "ticker": "HRL",
     },
     {
-      "ticker": "HST",
-    },
-    {
       "ticker": "HPQ",
     },
     {
@@ -525,12 +477,6 @@ db.stocks.insertMany([
       "ticker": "IBM",
     },
     {
-      "ticker": "IFF",
-    },
-    {
-      "ticker": "IP",
-    },
-    {
       "ticker": "INVH",
     },
     {
@@ -547,9 +493,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "K",
-    },
-    {
-      "ticker": "KDP",
     },
     {
       "ticker": "KEY",
@@ -580,9 +523,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "LDOS",
-    },
-    {
-      "ticker": "LEN",
     },
     {
       "ticker": "LII",
@@ -622,9 +562,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "MMC",
-    },
-    {
-      "ticker": "MLM",
     },
     {
       "ticker": "MAS",
@@ -1101,9 +1038,6 @@ db.stocks.insertMany([
       "ticker": "AVGO",
     },
     {
-      "ticker": "BPR",
-    },
-    {
       "ticker": "CHRW",
     },
     {
@@ -1155,9 +1089,6 @@ db.stocks.insertMany([
       "ticker": "CSX",
     },
     {
-      "ticker": "XRAT",
-    },
-    {
       "ticker": "DXCM",
     },
     {
@@ -1171,9 +1102,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "DISCK",
-    },
-    {
-      "ticker": "DLTER",
     },
     {
       "ticker": "ETFC",
@@ -1218,9 +1146,6 @@ db.stocks.insertMany([
       "ticker": "FOXA",
     },
     {
-      "ticker": "FILD",
-    },
-    {
       "ticker": "HAS",
     },
     {
@@ -1242,9 +1167,6 @@ db.stocks.insertMany([
       "ticker": "IDXX",
     },
     {
-      "ticker": "ILMN",
-    },
-    {
       "ticker": "INCY",
     },
     {
@@ -1255,39 +1177,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "ISRG",
-    },
-    {
-      "ticker": "QQQ",
-    },
-    {
-      "ticker": "SHY",
-    },
-    {
-      "ticker": "TLT",
-    },
-    {
-      "ticker": "IXUS",
-    },
-    {
-      "ticker": "EMB",
-    },
-    {
-      "ticker": "MBB",
-    },
-    {
-      "ticker": "ACWI",
-    },
-    {
-      "ticker": "PFF",
-    },
-    {
-      "ticker": "DVY",
-    },
-    {
-      "ticker": "SHV",
-    },
-    {
-      "ticker": "IGSB",
     },
     {
       "ticker": "JKHY",
@@ -1312,12 +1201,6 @@ db.stocks.insertMany([
     },
     {
       "ticker": "LULU",
-    },
-    {
-      "ticker": "LYFT",
-    },
-    {
-      "ticker": "MKST",
     },
     {
       "ticker": "MAR",
@@ -1455,9 +1338,6 @@ db.stocks.insertMany([
       "ticker": "TSCO",
     },
     {
-      "ticker": "TW",
-    },
-    {
       "ticker": "TRMB",
     },
     {
@@ -1467,31 +1347,10 @@ db.stocks.insertMany([
       "ticker": "UAL",
     },
     {
-      "ticker": "VCIT",
-    },
-    {
-      "ticker": "VCSH",
-    },
-    {
-      "ticker": "BND",
-    },
-    {
-      "ticker": "BNDX",
-    },
-    {
-      "ticker": "VXUS",
-    },
-    {
       "ticker": "VRSN",
     },
     {
       "ticker": "VRSK",
-    },
-    {
-      "ticker": "VRTX",
-    },
-    {
-      "ticker": "VIA",
     },
     {
       "ticker": "VIAB",
@@ -1513,8 +1372,5 @@ db.stocks.insertMany([
     },
     {
       "ticker": "XLNX",
-    },
-    {
-      "ticker": "ZM",
     }
-  ])
+  ]);

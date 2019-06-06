@@ -29,6 +29,7 @@ const createRouter = function(collection) {
         })
     })
 
+
     router.post('/', (req, res) => {
         const newItem = req.body
         collection
@@ -54,6 +55,32 @@ const createRouter = function(collection) {
             res.json({status: 500, error: err})
         })
     })
+
+    router.patch('/:id', (req, res) => {
+        const id = req.params.id;
+        const updatedData = req.body;
+        collection
+          .updateOne(
+            { _id: ObjectID(id)},
+            { $set: updatedData}
+           )
+           .then(() => collection.find().toArray())
+           .then((docs) => res.json(docs));
+         });
+
+
+    router.patch('/:id', (req, res) => {
+        const id = req.params.id;
+        const updatedData = req.body;
+        collection
+          .updateMany(
+            { _id: ObjectID(id)},
+            {$set: updatedData}
+           )
+           .then(() => collection.find().toArray())
+           .then((docs) => res.json(docs));
+         });
+
 
     return router
 }

@@ -8,10 +8,10 @@ const CompanyGridBoxSummary = function (container) {
 
 CompanyGridBoxSummary.prototype.bindEvents = function () {
   console.log('GridSummaryBindEvent');
-  PubSub.subscribe("allCompanyData:All-company-tickers", (event) => {
-    const companyTickersList = event.detail
+  PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
+    const fullCompanyInfoArray = event.detail
     const companyBoxSummary = new CompanyBoxSummary(this.container)
-    companyTickersList.forEach(company => {
+    fullCompanyInfoArray.forEach(company => {
     const renderedSumaryBox = companyBoxSummary.render(company)
     this.container.appendChild(renderedSumaryBox)
     })
