@@ -1,6 +1,7 @@
 const CompanyCalculations = require ('./models/get_company_ratios_api.js')
 const CompanyGridBoxSummary = require('./views/view_grid_company_box_summary.js')
 const FullCompanyData = require('./models/get_all_company_data_db.js')
+const CompanyEvaluation = require('./models/company_ranking_calculations.js')
 
 
 document.addEventListener("DOMContentLoaded",() => {
@@ -19,5 +20,8 @@ document.addEventListener("DOMContentLoaded",() => {
   const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary')
   const companyGridBoxSummary = new CompanyGridBoxSummary(companyGridBoxSummaryContainer)
   companyGridBoxSummary.bindEvents()
+
+  const companyEvaluation = new CompanyEvaluation()
+  companyEvaluation.isTheStockGoodOrBad()
 
 });

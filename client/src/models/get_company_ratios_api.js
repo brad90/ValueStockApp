@@ -24,8 +24,8 @@ CompanyCalculations.prototype.getEachCompaniesInfo = function (){
         data["ROE"] = this.calculateCompanyROE(data)
         data["DE"] = this.calculateCompanyDE(data)
         data["CR"] = this.calculateCompanyCurrentRatio(data)
+
         delete data.ratios
-        console.log("deleted ratios", data);
         this.request.patch(company._id, data)
         })
 
@@ -36,7 +36,6 @@ CompanyCalculations.prototype.getEachCompaniesInfo = function (){
         delete data.symbol
         data['PEG'] = this.calculateCompanyPEG(data)
         delete data.growth
-        console.log("deleted growth", data);
         this.request.patch(company._id, data)
       })
     })
@@ -93,7 +92,7 @@ CompanyCalculations.prototype.calculateCompanyCurrentRatio = function(data){
   data.ratios.forEach(function(year){
     const currentRatioYearly = { }
     currentRatioYearly['date'] =  year.date
-    currentRatioYearly['DE'] =  year.liquidityMeasurementRatios.currentRatio
+    currentRatioYearly['CR'] =  year.liquidityMeasurementRatios.currentRatio
     yearlyCurrentRatio.push (currentRatioYearly)
   })
   return yearlyCurrentRatio
@@ -109,5 +108,9 @@ CompanyCalculations.prototype.calculateCompanyPEG = function(data){
   })
   return yearlyCurrentPEG
 };
+
+
+
+
 
 module.exports = CompanyCalculations;

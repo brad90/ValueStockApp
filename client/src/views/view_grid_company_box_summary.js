@@ -7,7 +7,6 @@ const CompanyGridBoxSummary = function (container) {
 };
 
 CompanyGridBoxSummary.prototype.bindEvents = function () {
-  console.log('GridSummaryBindEvent');
   PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
     const fullCompanyInfoArray = event.detail
     const companyBoxSummary = new CompanyBoxSummary(this.container)
