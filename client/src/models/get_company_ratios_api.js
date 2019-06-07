@@ -13,33 +13,31 @@ CompanyCalculations.prototype.bindEvents = function () {
 
 CompanyCalculations.prototype.getEachCompaniesInfo = function (){
   PubSub.subscribe("all-company-data:All-company-tickers", (event) => {
-    const companyTickers = event.detail
-    companyTickers.forEach( company => {
-      const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
-      requestCompanyData.get()
-      .then((data) => {
-        delete data.symbol
-        data["PE"] = this.calculateCompanyPE(data)
-        data["PB"] = this.calculateCompanyPB(data)
-        data["ROE"] = this.calculateCompanyROE(data)
-        data["DE"] = this.calculateCompanyDE(data)
-        data["CR"] = this.calculateCompanyCurrentRatio(data)
-
-        delete data.ratios
-        this.request.patch(company._id, data)
+    const company = event.detail
+    company.forEach(company => {
+        const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
+        requestCompanyData.get()
+        .then((data) => {
+          delete data.symbol
+          data["PE"] = this.calculateCompanyPE(data)
+          data["PB"] = this.calculateCompanyPB(data)
+          data["ROE"] = this.calculateCompanyROE(data)
+          data["DE"] = this.calculateCompanyDE(data)
+          data["CR"] = this.calculateCompanyCurrentRatio(data)
+          delete data.ratios
+          this.request.patch(company._id, data)
         })
 
 
-      const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
-      requestCompanyGrowthData.get()
-      .then((data) => {
-        delete data.symbol
-        data['PEG'] = this.calculateCompanyPEG(data)
-        delete data.growth
-        this.request.patch(company._id, data)
+        const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
+        requestCompanyGrowthData.get()
+        .then((data) => {
+          data['PEG'] = this.calculateCompanyPEG(data)
+          delete data.growth
+          this.request.patch(company._id, data)
+        })
       })
     })
-  })
 }
 
 

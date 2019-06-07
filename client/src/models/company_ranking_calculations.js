@@ -6,7 +6,9 @@ const CompanyRankingCalculation = function(){};
 CompanyRankingCalculation.prototype.isTheStockGoodOrBad = function(){
   PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
     const fullCompanyData = event.detail
+    console.log(event.detail);
     fullCompanyData.forEach(data => {
+      console.log(data);
       const ratioEvaluation = { }
       ratioEvaluation['pe-evaluation'] = this.isPEGood(data)
       ratioEvaluation['pb-evaluaton'] = this.isPBGood(data)
@@ -14,52 +16,62 @@ CompanyRankingCalculation.prototype.isTheStockGoodOrBad = function(){
       ratioEvaluation['cr-evaluaton'] = this.isCRGood(data)
       ratioEvaluation['roe-evaluaton'] = this.isROEGood(data)
       ratioEvaluation['peg-evaluaton'] = this.isPEGGood(data)
-      console.log(ratioEvaluation);
+      ratioEvaluation['total-evaluaton'] = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isCRGood(data) + this.isROEGood(data) + this.isPEGGood(data)
+
     })
   })
 }
 
 
+
+
+
+
+
+
+
+
+
 CompanyRankingCalculation.prototype.isPEGood = function (companydata){
   const PEratio = companydata.PE;
   const latestPE = PEratio[0].PE;
-  const differenceFromIdealPE = 22.0 - latestPE;
-  return latestPE;
+  const differenceFromIdealPE = Math.abs(22.0 - latestPE) ;
+  return differenceFromIdealPE;
 };
 
 CompanyRankingCalculation.prototype.isPBGood = function (companydata){
   const PBratio = companydata.PB;
   const latestPB = PBratio[0].PB;
-  const differenceFromIdealPB = 1 - latestPB;
-  return latestPB;
+  const differenceFromIdealPB = Math.abs(1.0 - latestPB);
+  return differenceFromIdealPB;
 };
 
 CompanyRankingCalculation.prototype.isDEGood = function (companydata){
   const DEratio = companydata.DE;
   const latestDE = DEratio[0].DE;
-  const differenceFromIdealDE = 1.5 - latestDE
-  return latestDE;
+  const differenceFromIdealDE = Math.abs(1.5 - latestDE);
+  return differenceFromIdealDE;
 };
 
 CompanyRankingCalculation.prototype.isCRGood = function (companydata){
   const CRratio = companydata.CR;
   const latestCR = CRratio[0].CR;
-  const differenceFromIdealCR = 1.2 - latestCR
-  return latestCR;
+  const differenceFromIdealCR = Math.abs(1.2 - latestCR);
+  return differenceFromIdealCR;
 };
 
 CompanyRankingCalculation.prototype.isROEGood = function (companydata){
   const ROEratio = companydata.ROE;
   const latestROE = ROEratio[0].ROE;
-  const differenceFromIdealCR = 15 - latestROE
-  return latestROE;
+  const differenceFromIdealROE = Math.abs(15.0 - latestROE);
+  return differenceFromIdealROE;
 };
 
 CompanyRankingCalculation.prototype.isPEGGood = function (companydata){
   const PEGratio = companydata.PEG;
   const latestPEG = PEGratio[0].PEG;
-  const differenceFromIdealCR = 1- latestPEG
-  return latestPEG;
+  const differenceFromIdealPEG = Math.abs(1.0 - latestPEG);
+  return differenceFromIdealPEG;
 };
 
 module.exports = CompanyRankingCalculation;

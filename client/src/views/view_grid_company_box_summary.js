@@ -18,4 +18,9 @@ CompanyGridBoxSummary.prototype.bindEvents = function () {
 };
 
 
+
+
+
+
+
 module.exports = CompanyGridBoxSummary;
