@@ -1,34 +1,30 @@
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 
-const CompanyRankingCalculation = function(){};
+const CompanyRankingCalculation = function(){
+  this.request = new RequestHelper('http://localhost:3000/api/stocks')
+};
 
 CompanyRankingCalculation.prototype.isTheStockGoodOrBad = function(){
   PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
     const fullCompanyData = event.detail
-    console.log(event.detail);
     fullCompanyData.forEach(data => {
-      console.log(data);
       const ratioEvaluation = { }
-      ratioEvaluation['pe-evaluation'] = this.isPEGood(data)
-      ratioEvaluation['pb-evaluaton'] = this.isPBGood(data)
-      ratioEvaluation['de-evaluaton'] = this.isDEGood(data)
-      ratioEvaluation['cr-evaluaton'] = this.isCRGood(data)
-      ratioEvaluation['roe-evaluaton'] = this.isROEGood(data)
-      ratioEvaluation['peg-evaluaton'] = this.isPEGGood(data)
-      ratioEvaluation['total-evaluaton'] = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isCRGood(data) + this.isROEGood(data) + this.isPEGGood(data)
-
+      ratioEvaluation['pe_evaluation'] = this.isPEGood(data)
+      ratioEvaluation['pb_evaluaton'] = this.isPBGood(data)
+      ratioEvaluation['de_evaluaton'] = this.isDEGood(data)
+      ratioEvaluation['cr_evaluaton'] = this.isCRGood(data)
+      ratioEvaluation['roe_evaluaton'] = this.isROEGood(data)
+      ratioEvaluation['peg_evaluaton'] = this.isPEGGood(data)
+      const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isCRGood(data) + this.isROEGood(data) + this.isPEGGood(data)
+      ratioEvaluation['total_evaluation'] = total_evaluation.toFixed(2)
+      this.request.patch(data._id, ratioEvaluation)
+      .then((data) => {
+        PubSub.publish("companyRankingCalculations: company-data-including-evaluation", data)
+      })
     })
   })
 }
-
-
-
-
-
-
-
-
 
 
 

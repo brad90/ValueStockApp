@@ -17,7 +17,7 @@ CompanyBoxSummary.prototype.render = function (company) {
   companySummaryBox.appendChild(tickerSymbol)
   companySummaryBox.appendChild(companyEvaluationGraph)
   companySummaryBox.appendChild(companySummaryBoxReadMoreButton)
-  
+
   return companySummaryBox
 
 };
@@ -28,6 +28,13 @@ CompanyBoxSummary.prototype.tickerSymbol = function (company) {
   tickerSymbol.textContent = company.ticker
   tickerSymbol.classList.add('ticker-symbol-box-summary')
   return tickerSymbol
+};
+
+CompanyBoxSummary.prototype.tickerSymbol2 = function (company) {
+  const tickerSymbol2 = document.createElement('h2')
+  tickerSymbol2.textContent = company.PE.
+  tickerSymbol2.classList.add('ticker-symbol-box-summary')
+  return tickerSymbol2
 };
 
 CompanyBoxSummary.prototype.companySummaryReadMoreButton = function () {

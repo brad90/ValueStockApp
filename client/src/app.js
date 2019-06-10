@@ -1,5 +1,6 @@
 const CompanyCalculations = require ('./models/get_company_ratios_api.js')
-const CompanyGridBoxSummary = require('./views/view_grid_company_box_summary.js')
+const CompanyGridBoxSummaryView = require('./views/view_grid_company_box_summary.js')
+const CompanyGridBoxSummaryModel = require('./models/company_grid_box_summary.js')
 const FullCompanyData = require('./models/get_all_company_data_db.js')
 const CompanyEvaluation = require('./models/company_ranking_calculations.js')
 
@@ -14,12 +15,14 @@ document.addEventListener("DOMContentLoaded",() => {
   const historicalStockInfo = 'https://financialmodelingprep.com/api/v3/financial-ratios/';
   const growthStockInfo = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/'
   const companyCalculations = new CompanyCalculations(historicalStockInfo, growthStockInfo)
+  const companyGridBoxSummaryModel = new CompanyGridBoxSummaryModel()
   companyCalculations.bindEvents()
+  companyGridBoxSummaryModel.bindEvents()
 
   // Below: Rendering the screen with the company info.
   const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary')
-  const companyGridBoxSummary = new CompanyGridBoxSummary(companyGridBoxSummaryContainer)
-  companyGridBoxSummary.bindEvents()
+  const companyGridBoxSummaryView = new CompanyGridBoxSummaryView(companyGridBoxSummaryContainer)
+  companyGridBoxSummaryView.bindEvents()
 
   const companyEvaluation = new CompanyEvaluation()
   companyEvaluation.isTheStockGoodOrBad()

@@ -10,7 +10,6 @@ CompanyCalculations.prototype.bindEvents = function () {
   this.getEachCompaniesInfo()
 };
 
-
 CompanyCalculations.prototype.getEachCompaniesInfo = function (){
   PubSub.subscribe("all-company-data:All-company-tickers", (event) => {
     const company = event.detail
@@ -18,14 +17,15 @@ CompanyCalculations.prototype.getEachCompaniesInfo = function (){
         const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
         requestCompanyData.get()
         .then((data) => {
-          delete data.symbol
           data["PE"] = this.calculateCompanyPE(data)
           data["PB"] = this.calculateCompanyPB(data)
           data["ROE"] = this.calculateCompanyROE(data)
           data["DE"] = this.calculateCompanyDE(data)
           data["CR"] = this.calculateCompanyCurrentRatio(data)
           delete data.ratios
+          delete data.symbol
           this.request.patch(company._id, data)
+          
         })
 
 
@@ -34,6 +34,7 @@ CompanyCalculations.prototype.getEachCompaniesInfo = function (){
         .then((data) => {
           data['PEG'] = this.calculateCompanyPEG(data)
           delete data.growth
+          delete data.symbol
           this.request.patch(company._id, data)
         })
       })
