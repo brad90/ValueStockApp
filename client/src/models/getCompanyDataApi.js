@@ -1,48 +1,47 @@
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
-const CompanyCalculations = function (historicalUrl, growthUrl){
+const GetCompanyDataApi = function (historicalUrl, growthUrl){
   this.historicalUrl = historicalUrl
   this.growthUrl = growthUrl
   this.request = new RequestHelper('http://localhost:3000/api/stocks')
 }
 
-CompanyCalculations.prototype.bindEvents = function () {
+GetCompanyDataApi.prototype.bindEvents = function () {
   this.getEachCompaniesInfo()
 };
 
-CompanyCalculations.prototype.getEachCompaniesInfo = function (){
-  PubSub.subscribe("all-company-data:All-company-tickers", (event) => {
-    const company = event.detail
-    company.forEach(company => {
-        const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
-        requestCompanyData.get()
-        .then((data) => {
-          data["PE"] = this.calculateCompanyPE(data)
-          data["PB"] = this.calculateCompanyPB(data)
-          data["ROE"] = this.calculateCompanyROE(data)
-          data["DE"] = this.calculateCompanyDE(data)
-          data["CR"] = this.calculateCompanyCurrentRatio(data)
-          delete data.ratios
-          delete data.symbol
-          this.request.patch(company._id, data)
-          
-        })
+GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
+  PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
+    const companies = event.detail
+    companies.forEach(company => {
+      const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
+      requestCompanyData.get()
+      .then((data) => {
+        data["PE"] = this.calculateCompanyPE(data)
+        data["PB"] = this.calculateCompanyPB(data)
+        data["ROE"] = this.calculateCompanyROE(data)
+        data["DE"] = this.calculateCompanyDE(data)
+        data["CR"] = this.calculateCompanyCurrentRatio(data)
+        delete data.ratios
+        delete data.symbol
+        this.request.patch(company._id, data)
+      })
 
 
-        const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
-        requestCompanyGrowthData.get()
-        .then((data) => {
-          data['PEG'] = this.calculateCompanyPEG(data)
-          delete data.growth
-          delete data.symbol
-          this.request.patch(company._id, data)
-        })
+      const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
+      requestCompanyGrowthData.get()
+      .then((data) => {
+        data['PEG'] = this.calculateCompanyPEG(data)
+        delete data.growth
+        delete data.symbol
+        this.request.patch(company._id, data)
       })
     })
+  })
 }
 
 
-CompanyCalculations.prototype.calculateCompanyPE = function(data){
+GetCompanyDataApi.prototype.calculateCompanyPE = function(data){
   const CompanyYearlyPE = []
   data.ratios.forEach(function(year){
     const PEratioYearly = { }
@@ -53,7 +52,7 @@ CompanyCalculations.prototype.calculateCompanyPE = function(data){
   return  CompanyYearlyPE
 };
 
-CompanyCalculations.prototype.calculateCompanyPB = function(data){
+GetCompanyDataApi.prototype.calculateCompanyPB = function(data){
   const CompanyYearlyPB = []
   data.ratios.forEach(function(year){
     const PBratioYearly = { }
@@ -64,7 +63,7 @@ CompanyCalculations.prototype.calculateCompanyPB = function(data){
   return CompanyYearlyPB
 };
 
-CompanyCalculations.prototype.calculateCompanyROE = function(data){
+GetCompanyDataApi.prototype.calculateCompanyROE = function(data){
   const CompanyYearlyROE = []
   data.ratios.forEach(function(year){
     const ROEratioYearly = { }
@@ -75,7 +74,7 @@ CompanyCalculations.prototype.calculateCompanyROE = function(data){
   return CompanyYearlyROE
 };
 
-CompanyCalculations.prototype.calculateCompanyDE = function(data){
+GetCompanyDataApi.prototype.calculateCompanyDE = function(data){
   const CompanyYearlyDE = []
   data.ratios.forEach(function(year){
     const DEratioYearly = { }
@@ -86,7 +85,7 @@ CompanyCalculations.prototype.calculateCompanyDE = function(data){
   return CompanyYearlyDE
 };
 
-CompanyCalculations.prototype.calculateCompanyCurrentRatio = function(data){
+GetCompanyDataApi.prototype.calculateCompanyCurrentRatio = function(data){
   const yearlyCurrentRatio = []
   data.ratios.forEach(function(year){
     const currentRatioYearly = { }
@@ -97,7 +96,7 @@ CompanyCalculations.prototype.calculateCompanyCurrentRatio = function(data){
   return yearlyCurrentRatio
 };
 
-CompanyCalculations.prototype.calculateCompanyPEG = function(data){
+GetCompanyDataApi.prototype.calculateCompanyPEG = function(data){
   const yearlyCurrentPEG = []
   data.growth.forEach(function(year){
     const PEGRatioYearly = { }
@@ -112,4 +111,4 @@ CompanyCalculations.prototype.calculateCompanyPEG = function(data){
 
 
 
-module.exports = CompanyCalculations;
+module.exports = GetCompanyDataApi;

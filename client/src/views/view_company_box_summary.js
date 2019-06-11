@@ -11,7 +11,7 @@ CompanyBoxSummary.prototype.render = function (company) {
   const companySummaryBox = document.createElement('div')
   companySummaryBox.classList.add('company-summary-box')
   const tickerSymbol = this.tickerSymbol(company)
-  const companySummaryBoxReadMoreButton = this.companySummaryReadMoreButton()
+  const companySummaryBoxReadMoreButton = this.companySummaryReadMoreButton(company)
   const companyEvaluationGraph = this.companyEvaluationGraph()
 
   companySummaryBox.appendChild(tickerSymbol)
@@ -32,15 +32,16 @@ CompanyBoxSummary.prototype.tickerSymbol = function (company) {
 
 CompanyBoxSummary.prototype.tickerSymbol2 = function (company) {
   const tickerSymbol2 = document.createElement('h2')
-  tickerSymbol2.textContent = company.PE.
+  tickerSymbol2.textContent = company.PE
   tickerSymbol2.classList.add('ticker-symbol-box-summary')
   return tickerSymbol2
 };
 
-CompanyBoxSummary.prototype.companySummaryReadMoreButton = function () {
+CompanyBoxSummary.prototype.companySummaryReadMoreButton = function (company) {
   const readMoreButton = document.createElement('button')
   readMoreButton.classList.add('box-summary-read-more-button')
   readMoreButton.innerHTML = ('value','Read More')
+  readMoreButton.value = (company._id)
   return readMoreButton
 };
 

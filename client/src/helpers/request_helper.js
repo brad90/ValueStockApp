@@ -2,8 +2,18 @@ const RequestHelper = function(url) {
   this.url = url
 };
 
-RequestHelper.prototype.get = function () {
-  return fetch(this.url)
+// RequestHelper.prototype.get = function () {
+//   return fetch(this.url)
+//   .then((response) => response.json());
+// };
+
+RequestHelper.prototype.get = function(id) {
+
+  let finalUrl = this.url
+  if (id) {
+    finalUrl = `${finalUrl}/${id}`
+  }
+  return fetch(finalUrl)
   .then((response) => response.json());
 };
 

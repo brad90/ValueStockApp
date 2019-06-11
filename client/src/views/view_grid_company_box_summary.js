@@ -7,13 +7,19 @@ const CompanyGridBoxSummary = function (container) {
 };
 
 CompanyGridBoxSummary.prototype.bindEvents = function () {
-  PubSub.subscribe("Company-ranking-calculations: Sorted-company-ratios", (event) => {
+  PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
+    console.log("subscribed on sorted:", event.detail);
     const fullCompanyInfoArray = event.detail
     const companyBoxSummary = new CompanyBoxSummary(this.container)
     fullCompanyInfoArray.forEach(company => {
     const renderedSumaryBox = companyBoxSummary.render(company)
     this.container.appendChild(renderedSumaryBox)
     })
+  })
+
+  const button = document.addEventListener('click', (event) => {
+    const id = event.target.value
+    PubSub.publish('View_grid_company_box_summary: EventListener-read-more', id)
   })
 };
 

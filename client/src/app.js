@@ -1,30 +1,40 @@
-const CompanyCalculations = require ('./models/get_company_ratios_api.js')
+const GetCompanyDataApi = require ('./models/getCompanyDataApi.js')
+const GridSummaryDisplay = require('./models/gridSummaryDisplay.js')
+const GetCompanyDataDB = require('./models/getCompanyDataDB.js')
+const RankingCalculations = require('./models/rankingCalculations.js')
+const SinglePage = require('./models/singlePage.js')
+
 const CompanyGridBoxSummaryView = require('./views/view_grid_company_box_summary.js')
-const CompanyGridBoxSummaryModel = require('./models/company_grid_box_summary.js')
-const FullCompanyData = require('./models/get_all_company_data_db.js')
-const CompanyEvaluation = require('./models/company_ranking_calculations.js')
+const SinglePageView = require('./views/view_single_page_company_info_render.js')
 
 
 document.addEventListener("DOMContentLoaded",() => {
 
-  const fullCompanyData = new FullCompanyData()
+  const getCompanyDataDB = new GetCompanyDataDB()
   // Below: publishing inital ticker info from db and then returning total company info after calcs added.
-  fullCompanyData.bindEvents();
+  getCompanyDataDB.bindEvents();
 
   // Below: Returning ratios from the APIs and adding them to the objects feilds in the database.
   const historicalStockInfo = 'https://financialmodelingprep.com/api/v3/financial-ratios/';
   const growthStockInfo = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/'
-  const companyCalculations = new CompanyCalculations(historicalStockInfo, growthStockInfo)
-  const companyGridBoxSummaryModel = new CompanyGridBoxSummaryModel()
+  const companyCalculations = new GetCompanyDataApi(historicalStockInfo, growthStockInfo)
+  const gridSummaryDisplay = new GridSummaryDisplay()
   companyCalculations.bindEvents()
-  companyGridBoxSummaryModel.bindEvents()
+  gridSummaryDisplay.bindEvents()
 
   // Below: Rendering the screen with the company info.
   const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary')
   const companyGridBoxSummaryView = new CompanyGridBoxSummaryView(companyGridBoxSummaryContainer)
   companyGridBoxSummaryView.bindEvents()
 
-  const companyEvaluation = new CompanyEvaluation()
-  companyEvaluation.isTheStockGoodOrBad()
+  const rankingCalculations = new RankingCalculations()
+  rankingCalculations.isTheStockGoodOrBad()
+
+  const singlePageModel = new SinglePage()
+  singlePageModel.bindEvents()
+
+  const container = document.querySelector('#company-single-page')
+  const singlePageView = new SinglePageView(container)
+  singlePageView.bindEvents()
 
 });
