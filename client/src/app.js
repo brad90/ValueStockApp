@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded",() => {
   getCompanyDataDB.bindEvents();
 
   // Below: Returning ratios from the APIs and adding them to the objects feilds in the database.
-  const historicalStockInfo = 'https://financialmodelingprep.com/api/v3/financial-ratios/';
+  const keyMetrics = 'https://financialmodelingprep.com/api/v3/company-key-metrics/';
   const growthStockInfo = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/'
-  const companyCalculations = new GetCompanyDataApi(historicalStockInfo, growthStockInfo)
+  const companyCalculations = new GetCompanyDataApi(keyMetrics, growthStockInfo)
   companyCalculations.bindEvents()
 
   getCompanyDataDB.getCompanyFullDataRatios()

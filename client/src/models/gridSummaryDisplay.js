@@ -10,10 +10,19 @@ GridSummaryDisplay.prototype.bindEvents = function(){
   const sortedCompanies = PubSub.subscribe("GetCompanyDataDB:Full-company-data" , (event) => {
 
     const fullCompanyRatioData = event.detail
-    fullCompanyRatioData.sort(function (a,b) {
-      return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)
+    const noNullValues = [];
+
+    for(company in fullCompanyRatioData ){
+      if(fullCompanyRatioData[company].total_evaluation != null){
+        noNullValues.push(fullCompanyRatioData[company])
+      }
+    };
+
+    noNullValues.sort(function (a,b) {
+        return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)
     })
-    PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", fullCompanyRatioData)
+    console.log(noNullValues);
+    PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", noNullValues)
   })
 };
 
