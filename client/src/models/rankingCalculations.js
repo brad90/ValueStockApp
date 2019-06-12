@@ -10,8 +10,10 @@ const RankingCalculations= function(){
 
 RankingCalculations.prototype.isTheStockGoodOrBad = function(){
   PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
-    const fullCompanyData = event.detail
-    fullCompanyData.forEach(data => {
+    const companies= event.detail
+    companies.forEach(data => {
+      
+
       const ratioEvaluation = { }
       ratioEvaluation['pe_evaluation'] = this.isPEGood(data)
       ratioEvaluation['pb_evaluaton'] = this.isPBGood(data)

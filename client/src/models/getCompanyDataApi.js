@@ -13,32 +13,74 @@ GetCompanyDataApi.prototype.bindEvents = function () {
 GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
   PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
     const companies = event.detail
-    companies.forEach(company => {
-      const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
-      requestCompanyData.get()
-      .then((data) => {
-        data["PE"] = this.calculateCompanyPE(data)
-        data["PB"] = this.calculateCompanyPB(data)
-        data["ROE"] = this.calculateCompanyROE(data)
-        data["DE"] = this.calculateCompanyDE(data)
-        data["CR"] = this.calculateCompanyCurrentRatio(data)
-        delete data.ratios
-        delete data.symbol
-        this.request.patch(company._id, data)
-      })
+    console.log(companies.length);
 
+    let range = 0
+    let i = 0
 
-      const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
-      requestCompanyGrowthData.get()
-      .then((data) => {
-        data['PEG'] = this.calculateCompanyPEG(data)
-        delete data.growth
-        delete data.symbol
-        this.request.patch(company._id, data)
-      })
-    })
+    while(range < companies.length){
+      setTimeout(this.fetchApiInfoHistorical(companies, i), 1000)
+      setTimeout(this.fetchApiInfoCurrent(companies, i), 1000)
+      range += 1
+      i += 1
+    }
   })
-}
+};
+
+
+    // companies.forEach(company => {
+    //   const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
+    //   requestCompanyData.get()
+    //   .then((data) => {
+    //     data["PE"] = this.calculateCompanyPE(data)
+    //     data["PB"] = this.calculateCompanyPB(data)
+    //     data["ROE"] = this.calculateCompanyROE(data)
+    //     data["DE"] = this.calculateCompanyDE(data)
+    //     data["CR"] = this.calculateCompanyCurrentRatio(data)
+    //     delete data.ratios
+    //     delete data.symbol
+    //     this.request.patch(company._id, data)
+    //   })
+
+
+    //     const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
+    //     requestCompanyGrowthData.get()
+    //     .then((data) => {
+    //       data['PEG'] = this.calculateCompanyPEG(data)
+    //       delete data.growth
+    //       delete data.symbol
+    //       this.request.patch(company._id, data)
+    //     })
+    //   })
+
+
+
+GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(companies, index){
+  const requestCompanyData = new RequestHelper (this.historicalUrl + companies[index].ticker)
+  requestCompanyData.get()
+  .then((data) => {
+    console.log(companies[index].ticker);
+    data["PE"] = this.calculateCompanyPE(data)
+    data["PB"] = this.calculateCompanyPB(data)
+    data["ROE"] = this.calculateCompanyROE(data)
+    data["DE"] = this.calculateCompanyDE(data)
+    data["CR"] = this.calculateCompanyCurrentRatio(data)
+    delete data.ratios
+    delete data.symbol
+    this.request.patch(companies[index]._id, data)
+  })
+};
+
+GetCompanyDataApi.prototype.fetchApiInfoCurrent = function(companies, index){
+  const requestCompanyGrowthData = new RequestHelper (this.growthUrl + companies[index].ticker)
+  requestCompanyGrowthData.get()
+  .then((data) => {
+    data['PEG'] = this.calculateCompanyPEG(data)
+    delete data.growth
+    delete data.symbol
+    this.request.patch(companies[index]._id, data)
+  })
+};
 
 
 GetCompanyDataApi.prototype.calculateCompanyPE = function(data){

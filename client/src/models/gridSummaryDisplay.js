@@ -11,7 +11,7 @@ GridSummaryDisplay.prototype.bindEvents = function(){
   getCompanyDataDB.getCompanyFullDataRatios()
 
   const sortedCompanies = PubSub.subscribe("GetCompanyDataDB:Full-company-data" , (event) => {
-    console.log(event.detail);
+    
     const fullCompanyRatioData = event.detail
     fullCompanyRatioData.sort(function (a,b) {
       return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)
