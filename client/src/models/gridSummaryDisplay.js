@@ -7,11 +7,8 @@ const GridSummaryDisplay = function (){
 
 GridSummaryDisplay.prototype.bindEvents = function(){
 
-  const getCompanyDataDB  = new GetCompanyDataDB();
-  getCompanyDataDB.getCompanyFullDataRatios()
-
   const sortedCompanies = PubSub.subscribe("GetCompanyDataDB:Full-company-data" , (event) => {
-    
+
     const fullCompanyRatioData = event.detail
     fullCompanyRatioData.sort(function (a,b) {
       return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)

@@ -18,17 +18,19 @@ document.addEventListener("DOMContentLoaded",() => {
   const historicalStockInfo = 'https://financialmodelingprep.com/api/v3/financial-ratios/';
   const growthStockInfo = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/'
   const companyCalculations = new GetCompanyDataApi(historicalStockInfo, growthStockInfo)
-  const gridSummaryDisplay = new GridSummaryDisplay()
   companyCalculations.bindEvents()
+
+  getCompanyDataDB.getCompanyFullDataRatios()
+  const rankingCalculations = new RankingCalculations()
+  rankingCalculations.isTheStockGoodOrBad()
+
+  const gridSummaryDisplay = new GridSummaryDisplay()
   gridSummaryDisplay.bindEvents()
 
   // Below: Rendering the screen with the company info.
   const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary')
   const companyGridBoxSummaryView = new CompanyGridBoxSummaryView(companyGridBoxSummaryContainer)
   companyGridBoxSummaryView.bindEvents()
-
-  const rankingCalculations = new RankingCalculations()
-  rankingCalculations.isTheStockGoodOrBad()
 
   const singlePageModel = new SinglePage()
   singlePageModel.bindEvents()

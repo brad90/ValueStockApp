@@ -1,5 +1,6 @@
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
+const GetCompanyDataDB = require('./getCompanyDataDB.js')
 const GetCompanyDataApi = function (historicalUrl, growthUrl){
   this.historicalUrl = historicalUrl
   this.growthUrl = growthUrl
@@ -11,16 +12,15 @@ GetCompanyDataApi.prototype.bindEvents = function () {
 };
 
 GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
-  PubSub.subscribe("all-company-data:All-company-ratios", (event) => {
+  PubSub.subscribe("all-company-data:All-company-tickers", (event) => {
     const companies = event.detail
-    console.log(companies.length);
 
     let range = 0
     let i = 0
 
     while(range < companies.length){
-      setTimeout(this.fetchApiInfoHistorical(companies, i), 1000)
-      setTimeout(this.fetchApiInfoCurrent(companies, i), 1000)
+      setTimeout(this.fetchApiInfoHistorical(companies, i), 1000*i)
+      setTimeout(this.fetchApiInfoCurrent(companies, i), 1000*i)
       range += 1
       i += 1
     }
@@ -59,7 +59,6 @@ GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(companies, index){
   const requestCompanyData = new RequestHelper (this.historicalUrl + companies[index].ticker)
   requestCompanyData.get()
   .then((data) => {
-    console.log(companies[index].ticker);
     data["PE"] = this.calculateCompanyPE(data)
     data["PB"] = this.calculateCompanyPB(data)
     data["ROE"] = this.calculateCompanyROE(data)

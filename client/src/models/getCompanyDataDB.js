@@ -12,7 +12,7 @@ GetCompanyDataDB.prototype.bindEvents = function () {
 GetCompanyDataDB.prototype.getCompanyDataDB = function () {
   this.request.get()
   .then((data) => {
-    PubSub.publish("all-company-data:All-company-ratios", data)
+    PubSub.publish("all-company-data:All-company-tickers", data)
   })
 }
 
