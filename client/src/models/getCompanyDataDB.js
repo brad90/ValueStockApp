@@ -24,5 +24,14 @@ GetCompanyDataDB.prototype.getCompanyFullDataRatios = function () {
 }
 
 
+GetCompanyDataDB.prototype.getCompanyFullDataRatiosSummary = function () {
+  this.request.get()
+  .then((data) => {
+    PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", data)
+  })
+}
+
+
+
 
 module.exports = GetCompanyDataDB;

@@ -17,29 +17,38 @@ GetCompanyDataApi.prototype.bindEvents = function () {
 
 GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
   PubSub.subscribe("all-company-data:All-company-tickers", (event) => {
+
+
     const companies = event.detail
-    console.log(companies);
-
-    //create and array that will pop off the last 20.
-
-    let topRange = 20
-    let bottomRange = 0
-
-    while(topRange < companies.length + 20){
-
-      let companies20 = companies.slice(bottomRange, topRange)
-      let i = 0
-
-      for(company in companies20){
+    if(companies[0].total_evaluation != undefined){
 
 
-        setTimeout(this.fetchApiInfoHistorical(companies20[company]), 50000*i)
-        setTimeout(this.fetchApiInfoCurrent(companies20[company]), 50000*i)
-        i += 1
+      //create and array that will pop off the last 20.
+
+      let topRange = 20
+      let bottomRange = 0
+
+      while(topRange < companies.length + 20){
+
+        let companies20 = companies.slice(bottomRange, topRange)
+        let i = 0
+
+        for(company in companies20){
+
+
+          setTimeout(this.fetchApiInfoHistorical(companies20[company]), 50000*i)
+          setTimeout(this.fetchApiInfoCurrent(companies20[company]), 50000*i)
+          i += 1
+        }
+
+        topRange += 20
+        bottomRange += 20
       }
+    }else{
 
-      topRange += 20
-      bottomRange += 20
+      const getCompanyDataDB = new GetCompanyDataDB()
+      getCompanyDataDB.getCompanyFullDataRatiosSummary()
+
     }
   })
 };
