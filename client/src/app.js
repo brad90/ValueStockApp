@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded",() => {
   companyGridBoxSummaryView.bindEvents()
 
 
-  const viewMainPageContainerFold = document.querySelector("#above-the-fold-container")
+  const viewMainPageContainerFold = document.querySelectorAll(".mainpage")
+  console.log(viewMainPageContainerFold);
   const viewMainPageContainerGrid = document.querySelector("#company-grid-summary")
   const viewMainPage = new ViewMainPage(viewMainPageContainerFold, viewMainPageContainerGrid)
   viewMainPage.bindEvents()

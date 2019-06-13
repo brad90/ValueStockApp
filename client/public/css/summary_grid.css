@@ -4,19 +4,25 @@ src: url("css/fonts/LeagueSpartan-Bold.otf");
 };
 
 #company-grid-summary{
-  display: block;
+  display:flex !important;
+  justify-content: center;
+  background-color: pink;
   border: 2px solid black;
   width:100%;
 }
 
 .company-summary-box{
+  display:inline-block!important;
   border:2px solid black;
-  width:20rem;
-  height:20rem;
-  margin: 5% 0%;
-  padding: 2rem;
+  justify-content: center;
+  margin-left: 3%;
+  margin-bottom: 3%;
+  padding-bottom: 3%;
+  width:17rem;
+  height:17rem;
+  padding: 1rem;
 
-  background-color: white;
+  background-color: pink;
 }
 
 .company-summary-box h2{
@@ -26,12 +32,13 @@ src: url("css/fonts/LeagueSpartan-Bold.otf");
 
 .box-summary-read-more-button{
   padding:0.5rem;
-  width: 20rem;
-  font-size: 1.5rem;
+  margin-left: 1%;
+  width: 100%;
+  font-size: 1rem;
 }
 
 .company-graph{
   border:2px solid black;
   width:100%;
-  height:75%;
+  height:70%;
 }

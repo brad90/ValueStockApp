@@ -16,7 +16,7 @@ ViewMainPage.prototype.viewAllButtonClick = function () {
   const targetButtonAll = document.querySelector('#fold-best-button')
   targetButtonAll.addEventListener('click', (event)=>{
 
-    this.containerMain.classList.add('visibility-hidden')
+    this.containerMain.forEach(element => element.classList.add('visibility-hidden'))
     this.containerGrid.classList.remove('visibility-hidden')
   })
 };

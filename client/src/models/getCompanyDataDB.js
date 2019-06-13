@@ -9,10 +9,10 @@ const GetCompanyDataDB = function (){
 
 GetCompanyDataDB.prototype.bindEvents = function () {
   this.getCompanyDataDB()
-
 };
 
 GetCompanyDataDB.prototype.getCompanyDataDB = function () {
+  console.log("db request");
   this.request.get()
   .then((data) => {
     PubSub.publish("getCompanyDataDB:All-db-companies", data)

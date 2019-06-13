@@ -34,11 +34,16 @@
 .buttonNav{
   background: none;
   border:none;
+  margin-right: 3%;
   color:black;
   font-size: 1.25rem;
   font-weight:bold;
   font-family: helvetica;
   padding:0;
+}
+
+.buttonNav focus{
+  border-bottom:2px solid #21ce99;
 }
 
 /* Style the links inside the navigation bar */
@@ -72,7 +77,6 @@
   display: flex;
   justify-content: flex-end;
   width:50%;
-  padding-right: 5%;
 
   font-size: 2rem;
   font-weight: bold;
@@ -81,7 +85,6 @@
 
 #logo{
   width:50%;
-  padding-left: 5%;
 }
 
 .logo{
@@ -92,7 +95,6 @@
 }
 
 #container-left{
-  padding-left: 5%;
   padding-top: 20%;
   width:40%;
 }
@@ -111,13 +113,22 @@
 }
 
 .sponsors{
+  display: flex;
+  justify-content: space-around;
   padding-top: 2%;
-  padding-left: 5%;
-  padding-right: 5%;
   height:10%;
+
 }
 
 
 #bi{
-  height: 75px;
+  height: 4rem;
+}
+
+#ft{
+  height: 4rem;
+}
+
+#te{
+  height: 4.5rem;
 }
