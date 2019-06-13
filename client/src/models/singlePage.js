@@ -1,3 +1,6 @@
+
+
+
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 
@@ -13,7 +16,6 @@ SinglePage.prototype.bindEvents = function(){
 SinglePage.prototype.buttonSelected = function () {
   PubSub.subscribe('View_grid_company_box_summary: EventListener-read-more', (event) => {
     const id = event.detail
-    console.log(id)
     this.request.get(id)
     .then((data) => {
       PubSub.publish("company_full_detail_single_page: Publishing-only-one-company", data)

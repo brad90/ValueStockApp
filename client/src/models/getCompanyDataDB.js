@@ -1,3 +1,5 @@
+
+
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const GetCompanyDataDB = function (){
@@ -7,12 +9,13 @@ const GetCompanyDataDB = function (){
 
 GetCompanyDataDB.prototype.bindEvents = function () {
   this.getCompanyDataDB()
+
 };
 
 GetCompanyDataDB.prototype.getCompanyDataDB = function () {
   this.request.get()
   .then((data) => {
-    PubSub.publish("all-company-data:All-company-tickers", data)
+    PubSub.publish("getCompanyDataDB:All-db-companies", data)
   })
 }
 
@@ -24,12 +27,12 @@ GetCompanyDataDB.prototype.getCompanyFullDataRatios = function () {
 }
 
 
-GetCompanyDataDB.prototype.getCompanyFullDataRatiosSummary = function () {
-  this.request.get()
-  .then((data) => {
-    PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", data)
-  })
-}
+// GetCompanyDataDB.prototype.getCompanyFullDataRatiosSummary = function () {
+//   this.request.get()
+//   .then((data) => {
+//     PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", data)
+//   })
+// }
 
 
 

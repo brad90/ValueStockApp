@@ -11,15 +11,15 @@ button{
   cursor: pointer;
 }
 
+body{
+  height:100%;
+}
+
 html{
   height:100%;
   width:100%;
 
-  background-color: #f6f6f6
-}
-
-body{
-  padding: 5% 10%;
+  background-color: white;
 }
 
 button{
@@ -30,6 +30,14 @@ button{
 }
 
 h1{
-  font-family:"LeagueSpartan";
   font-size:4rem;
+}
+
+h1, h2, h3, h4, h5, h6, p{
+  font-family:helvetica;
+}
+
+p{
+  font-size: 1.25rem;
+  font-weight: 100;
 }

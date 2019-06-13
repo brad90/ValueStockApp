@@ -1,6 +1,10 @@
+
+
+
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const GetCompanyDataDB = require('./getCompanyDataDB.js')
+const RankingCalculations = require('./rankingCalculations.js')
 const GetCompanyDataApi = function (keyMetriclUrl, growthUrl){
   this.keyMetrics = keyMetriclUrl
   this.growthUrl = growthUrl
@@ -11,16 +15,12 @@ GetCompanyDataApi.prototype.bindEvents = function () {
   this.getEachCompaniesInfo()
 };
 
-
-
-
-
 GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
-  PubSub.subscribe("all-company-data:All-company-tickers", (event) => {
+  PubSub.subscribe("getCompanyDataDB:All-db-companies", (event) => {
 
 
     const companies = event.detail
-    if(companies[0].total_evaluation != undefined){
+    if(companies[0].total_evaluation === undefined){
 
 
       //create and array that will pop off the last 20.
@@ -36,19 +36,21 @@ GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
         for(company in companies20){
 
 
-          setTimeout(this.fetchApiInfoHistorical(companies20[company]), 50000*i)
-          setTimeout(this.fetchApiInfoCurrent(companies20[company]), 50000*i)
+          setTimeout(this.fetchApiInfoHistorical(companies20[company]), 1000)
+          setTimeout(this.fetchApiInfoCurrent(companies20[company]), 1000)
           i += 1
         }
 
         topRange += 20
         bottomRange += 20
       }
-    }else{
-
+      const rankingCalculations = new RankingCalculations()
+      rankingCalculations.isTheStockGoodOrBad()
+      getCompanyDataDB.getCompanyFullDataRatios()
+    }
+    else{
       const getCompanyDataDB = new GetCompanyDataDB()
-      getCompanyDataDB.getCompanyFullDataRatiosSummary()
-
+      getCompanyDataDB.getCompanyFullDataRatios()
     }
   })
 };
@@ -113,6 +115,7 @@ GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(company){
     delete data.symbol
     delete data.metrics
     this.request.patch(company._id, data)
+    .then(console.log('done'))
 
   })
 };
@@ -125,6 +128,7 @@ GetCompanyDataApi.prototype.fetchApiInfoCurrent = function(company){
     delete data.growth
     delete data.symbol
     this.request.patch(company._id, data)
+    .then(console.log('done'))
   })
 };
 

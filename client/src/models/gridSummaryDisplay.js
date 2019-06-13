@@ -1,3 +1,5 @@
+
+
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const GetCompanyDataDB = require('./getCompanyDataDB.js')
@@ -21,7 +23,6 @@ GridSummaryDisplay.prototype.bindEvents = function(){
     noNullValues.sort(function (a,b) {
         return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)
     })
-    console.log(noNullValues);
     PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", noNullValues)
   })
 };

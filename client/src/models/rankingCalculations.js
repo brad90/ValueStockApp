@@ -1,3 +1,6 @@
+
+
+
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const GetCompanyDataDB = require('./getCompanyDataDB.js')
@@ -25,6 +28,7 @@ RankingCalculations.prototype.isTheStockGoodOrBad = function(){
       const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isROEGood(data) + this.isPEGGood(data)
       ratioEvaluation['total_evaluation'] = total_evaluation
       this.request.patch(data._id, ratioEvaluation)
+      .then(console.log('done'))
 
     })
   })
@@ -107,7 +111,6 @@ RankingCalculations.prototype.isPEGGood = function (companydata){
     PEGratio = PEGratio[0]
     const latestPEG = PEGratio['PEG'];
     const differenceFromIdealPEG = Math.abs(1.0 - latestPEG);
-    console.log(differenceFromIdealPEG);
     // const differenceFromIdealPEG = parseFloat(latestPEG)
 
     return differenceFromIdealPEG;
