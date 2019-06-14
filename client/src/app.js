@@ -5,8 +5,9 @@ const RankingCalculations = require('./models/rankingCalculations.js')
 const SinglePage = require('./models/singlePage.js')
 
 
-const CompanyGridBoxSummaryView = require('./views/view_grid_company_box_summary.js')
-const SinglePageView = require('./views/view_single_page_company_info_render.js')
+const ViewCompanyGridPage = require('./views/viewCompanyGridPage.js')
+const ViewCompanyBox = require('./views/viewCompanyBox.js')
+const SinglePageView = require('./views/viewSinglePage.js')
 const ViewMainPage = require('./views/viewMainPage.js')
 
 
@@ -27,8 +28,9 @@ document.addEventListener("DOMContentLoaded",() => {
 
   // Below: Rendering the screen with the company info.
   const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary')
-  const companyGridBoxSummaryView = new CompanyGridBoxSummaryView(companyGridBoxSummaryContainer)
-  companyGridBoxSummaryView.bindEvents()
+  const viewCompanyBox = new ViewCompanyBox(companyGridBoxSummaryContainer)
+  const viewCompanyGridPage = new ViewCompanyGridPage(companyGridBoxSummaryContainer)
+  viewCompanyGridPage.bindEvents()
 
 
   const viewMainPageContainerFold = document.querySelectorAll(".mainpage")
@@ -41,10 +43,9 @@ document.addEventListener("DOMContentLoaded",() => {
   const singlePageModel = new SinglePage()
   singlePageModel.bindEvents()
 
-
-
   const container = document.querySelector('#company-single-page')
-  const singlePageView = new SinglePageView(container)
+  const summaryCompany= document.querySelector("#company-grid-summary")
+  const singlePageView = new SinglePageView(container, summaryCompany)
   singlePageView.bindEvents()
 
 });

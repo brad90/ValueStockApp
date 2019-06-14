@@ -11,7 +11,7 @@ src: url("css/fonts/LeagueSpartan-Bold.otf");
   width:100%;
 }
 
-.company-summary-box{
+.companysummarybox{
   display:inline-block!important;
   border:2px solid black;
   justify-content: center;
@@ -25,7 +25,7 @@ src: url("css/fonts/LeagueSpartan-Bold.otf");
   background-color: pink;
 }
 
-.company-summary-box h2{
+.companysummarybox h2{
   font-family: "LeagueSpartan";
   font-size: 2.3rem;
 }

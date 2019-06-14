@@ -9,7 +9,7 @@ const CompanyBoxSummary = function (container) {
 CompanyBoxSummary.prototype.render = function (company) {
 
   const companySummaryBox = document.createElement('div')
-  companySummaryBox.classList.add('company-summary-box')
+  companySummaryBox.classList.add('companysummarybox')
   const tickerSymbol = this.tickerSymbol(company)
   const companySummaryBoxReadMoreButton = this.companySummaryReadMoreButton(company)
   const companyEvaluationGraph = this.companyEvaluationGraph()
@@ -39,9 +39,12 @@ CompanyBoxSummary.prototype.tickerSymbol2 = function (company) {
 
 CompanyBoxSummary.prototype.companySummaryReadMoreButton = function (company) {
   const readMoreButton = document.createElement('button')
-  readMoreButton.classList.add('box-summary-read-more-button')
+  readMoreButton.classList.add('summaryBoxButton')
   readMoreButton.innerHTML = ('value','Read More')
   readMoreButton.value = (company._id)
+  readMoreButton.addEventListener('click', (event)=>{
+    PubSub.publish("ViewBoxSummary: selected-company-single-page", event.target.value);
+  })
   return readMoreButton
 };
 
@@ -50,6 +53,21 @@ CompanyBoxSummary.prototype.companyEvaluationGraph = function (){
   graph.classList.add('company-graph')
   return graph
 }
+
+
+// CompanyBoxSummary.prototype.companySelected = function () {
+//   const targetCompanyButtonAll = document.querySelector('.summaryBoxButton')
+//
+//   this.companySummaryReadMoreButton().addEventListener('click', (event)=>{
+//     console.log(event);
+//
+//     // companyButton.addEventListener('click', (event) => {
+//     //   const id = event.target.value
+//     //   PubSub.publish('View_grid_company_box_summary: EventListener-read-more', id)
+//     //   this.container.classList.add('visibility-hidden')
+//     // })
+//     })
+//   };
 
 
 
