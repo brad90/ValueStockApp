@@ -12,17 +12,26 @@ GetCompanyDataDB.prototype.bindEvents = function () {
 };
 
 GetCompanyDataDB.prototype.getCompanyDataDB = function () {
-  console.log("db request");
+
   this.request.get()
   .then((data) => {
     PubSub.publish("getCompanyDataDB:All-db-companies", data)
   })
 }
 
+
+GetCompanyDataDB.prototype.getCompanyDataApi = function () {
+
+  this.request.get()
+  .then((data) => {
+    PubSub.publish("getCompanyDataDB:All-db-companies-Api", data)
+  })
+}
+
 GetCompanyDataDB.prototype.getCompanyFullDataRatios = function () {
   this.request.get()
   .then((data) => {
-    PubSub.publish("GetCompanyDataDB:Full-company-data", data)
+    PubSub.publish("GetCompanyDataDB:Full-company-ratios", data)
   })
 }
 

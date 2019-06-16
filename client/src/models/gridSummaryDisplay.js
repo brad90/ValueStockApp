@@ -9,21 +9,28 @@ const GridSummaryDisplay = function (){
 
 GridSummaryDisplay.prototype.bindEvents = function(){
 
-  const sortedCompanies = PubSub.subscribe("GetCompanyDataDB:Full-company-data" , (event) => {
+  let numberOfPublishes = 0
 
-    const fullCompanyRatioData = event.detail
-    const noNullValues = [];
+  const sortedCompanies = PubSub.subscribe("full-company-info" , (event) => {
 
-    for(company in fullCompanyRatioData ){
-      if(fullCompanyRatioData[company].total_evaluation != null){
-        noNullValues.push(fullCompanyRatioData[company])
+    console.log(event.detail);
+
+    if(event.detail[444].PE != undefined){
+      const fullCompanyRatioData = event.detail
+      const noNullValues = [];
+
+      for(company in fullCompanyRatioData ){
+        if(fullCompanyRatioData[company].total_evaluation != null){
+          noNullValues.push(fullCompanyRatioData[company])
+        }
       }
-    };
 
-    noNullValues.sort(function (a,b) {
+
+      noNullValues.sort(function (a,b) {
         return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)
-    })
-    PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", noNullValues)
+      })
+      PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", noNullValues)
+    }
   })
 };
 

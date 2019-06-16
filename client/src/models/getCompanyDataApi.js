@@ -5,103 +5,60 @@ const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const GetCompanyDataDB = require('./getCompanyDataDB.js')
 const RankingCalculations = require('./rankingCalculations.js')
-const GetCompanyDataApi = function (keyMetriclUrl, growthUrl){
+const GetCompanyDataApi = function (keyMetriclUrl, growthUrl, generalUrl){
   this.keyMetrics = keyMetriclUrl
   this.growthUrl = growthUrl
+  this.generalUrl = generalUrl
   this.request = new RequestHelper('http://localhost:3000/api/stocks')
 }
+
+const getCompanyDataDB = new GetCompanyDataDB()
+const rankingCalculations = new RankingCalculations()
+let companyInfoWithApiNumber = 0
+let companyInfoWithApi = null
+
+
+
 
 GetCompanyDataApi.prototype.bindEvents = function () {
   this.getEachCompaniesInfo()
 };
 
+
+
 GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
   PubSub.subscribe("getCompanyDataDB:All-db-companies", (event) => {
 
-
     const companies = event.detail
     if(companies[0].total_evaluation === undefined){
-
-
-      //create and array that will pop off the last 20.
-
       let topRange = 20
       let bottomRange = 0
-
-      while(topRange < companies.length + 20){
-
+      let i = 1
+      while(bottomRange < companies.length + 20){
         let companies20 = companies.slice(bottomRange, topRange)
-        let i = 0
-
         for(company in companies20){
-
-
-          setTimeout(this.fetchApiInfoHistorical(companies20[company]), 1000)
-          setTimeout(this.fetchApiInfoCurrent(companies20[company]), 1000)
-          i += 1
+          setTimeout(this.fetchApiInfoHistorical(companies20[company]), i*5000)
+          setTimeout(this.fetchApiInfoCurrent(companies20[company]), i*5000)
+          setTimeout(this.fetchApiGenralInfo(companies20[company]), i*5000)
         }
-
         topRange += 20
         bottomRange += 20
+
+        i += 1
       }
-      const rankingCalculations = new RankingCalculations()
-      rankingCalculations.isTheStockGoodOrBad()
-      getCompanyDataDB.getCompanyFullDataRatios()
+
     }
-    else{
-      const getCompanyDataDB = new GetCompanyDataDB()
-      getCompanyDataDB.getCompanyFullDataRatios()
-    }
+    rankingCalculations.isTheStockGoodOrBad()
   })
 };
 
 
-
-
-// Cities.prototype.getData = function (counter = 0, index = 1) {
-//   if (counter < 22) {
-//   this.apiRequest = new CitiesRequestHelper(this.apiUrl)
-//   this.apiRequest.get()
-//   .then((cities) => {
-//     this.citiesRequest.post(cities.data)
-//     this.apiUrl = `https://wft-geo-db.p.rapidapi.com${cities.links[index].href}`;
-//     index = 2;
-//     counter++;
-//     this.getData(counter, index);
-//   })}
-// };
-
-
-
-
-
-// companies.forEach(company => {
-//   const requestCompanyData = new RequestHelper (this.historicalUrl + company.ticker)
-//   requestCompanyData.get()
-//   .then((data) => {
-//     data["PE"] = this.calculateCompanyPE(data)
-//     data["PB"] = this.calculateCompanyPB(data)
-//     data["ROE"] = this.calculateCompanyROE(data)
-//     data["DE"] = this.calculateCompanyDE(data)
-//     data["CR"] = this.calculateCompanyCurrentRatio(data)
-//     delete data.ratios
-//     delete data.symbol
-//     this.request.patch(company._id, data)
-//   })
-
-
-//     const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
-//     requestCompanyGrowthData.get()
-//     .then((data) => {
-//       data['PEG'] = this.calculateCompanyPEG(data)
-//       delete data.growth
-//       delete data.symbol
-//       this.request.patch(company._id, data)
-//     })
-//   })
-
-
-
+GetCompanyDataApi.prototype.fetchdbInfo = function(company){
+  const getCompanyDataDB = new GetCompanyDataDB()
+  const rankingCalculations = new RankingCalculations()
+  getCompanyDataDB.getCompanyDataApi()
+  rankingCalculations.isTheStockGoodOrBad()
+}
 
 GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(company){
   const requestCompanyData = new RequestHelper (this.keyMetrics + company.ticker)
@@ -115,8 +72,26 @@ GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(company){
     delete data.symbol
     delete data.metrics
     this.request.patch(company._id, data)
-    .then(console.log('done'))
+    .then((data) => {
+      companyInfoWithApiNumber += 1
+      companyInfoWithApi = data
+    }).then(() => {
+      if(companyInfoWithApiNumber == 443){
+        PubSub.publish("full-company-info",companyInfoWithApi)
+      }
+    })
+  })
+};
 
+GetCompanyDataApi.prototype.fetchApiGenralInfo= function(company){
+  const requestCompanyData = new RequestHelper (this.generalUrl + company.ticker)
+  requestCompanyData.get()
+  .then((data) => {
+    data["sector"] = data.profile.sector
+    data["currentPrice"] = data.profile.price
+    delete data.symbol
+    delete data.profile
+    this.request.patch(company._id, data)
   })
 };
 
@@ -128,7 +103,6 @@ GetCompanyDataApi.prototype.fetchApiInfoCurrent = function(company){
     delete data.growth
     delete data.symbol
     this.request.patch(company._id, data)
-    .then(console.log('done'))
   })
 };
 

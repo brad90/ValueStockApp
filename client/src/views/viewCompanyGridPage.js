@@ -16,6 +16,7 @@ ViewCompanyGridPage.prototype.bindEvents = function () {
 ViewCompanyGridPage.prototype.render = function () {
   PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
     const fullCompanyInfoArray = event.detail
+    console.log(event.detail);
     const companyBoxSummary = new CompanyBoxSummary(this.container)
     fullCompanyInfoArray.forEach(company => {
       const renderedSumaryBox = companyBoxSummary.render(company)

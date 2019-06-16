@@ -14,14 +14,17 @@ const ViewMainPage = require('./views/viewMainPage.js')
 document.addEventListener("DOMContentLoaded",() => {
 
   const getCompanyDataDB = new GetCompanyDataDB()
-  // Below: publishing inital ticker info from db and then returning total company info after calcs added.
   getCompanyDataDB.bindEvents();
 
-  // Below: Returning ratios from the APIs and adding them to the objects feilds in the database.
   const keyMetrics = 'https://financialmodelingprep.com/api/v3/company-key-metrics/';
   const growthStockInfo = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/'
-  const companyCalculations = new GetCompanyDataApi(keyMetrics, growthStockInfo)
-  companyCalculations.bindEvents()
+  const generalInfo = 'https://financialmodelingprep.com/api/v3/company/profile/'
+
+  const companyCalculationsAPI = new GetCompanyDataApi(keyMetrics, growthStockInfo, generalInfo)
+  companyCalculationsAPI.bindEvents()
+
+
+
 
   const gridSummaryDisplay = new GridSummaryDisplay()
   gridSummaryDisplay.bindEvents()

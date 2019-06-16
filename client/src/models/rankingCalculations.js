@@ -10,35 +10,35 @@ const RankingCalculations= function(){
   this.request = new RequestHelper('http://localhost:3000/api/stocks')
 };
 
-
 RankingCalculations.prototype.isTheStockGoodOrBad = function(){
-  PubSub.subscribe("GetCompanyDataDB:Full-company-data", (event) => {
-    const companies= event.detail
-    companies.forEach(data => {
+  PubSub.subscribe("getCompanyDataDB:All-db-companies-Api", (event) => {
 
+    console.log(event.detail);
 
+      const companies= event.detail
 
-      const ratioEvaluation = { }
-      ratioEvaluation['pe_evaluation'] = this.isPEGood(data)
-      ratioEvaluation['pb_evaluaton'] = this.isPBGood(data)
-      ratioEvaluation['de_evaluaton'] = this.isDEGood(data)
-      // ratioEvaluation['cr_evaluaton'] = this.isCRGood(data)
-      ratioEvaluation['roe_evaluaton'] = this.isROEGood(data)
-      ratioEvaluation['peg_evaluaton'] = this.isPEGGood(data)
-      const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isROEGood(data) + this.isPEGGood(data)
-      ratioEvaluation['total_evaluation'] = total_evaluation
-      this.request.patch(data._id, ratioEvaluation)
-      .then(console.log('done'))
+      companies.forEach(data => {
 
-    })
+        const ratioEvaluation = { }
+        ratioEvaluation['pe_evaluation'] = this.isPEGood(data)
+        ratioEvaluation['pb_evaluaton'] = this.isPBGood(data)
+        ratioEvaluation['de_evaluaton'] = this.isDEGood(data)
+        // ratioEvaluation['cr_evaluaton'] = this.isCRGood(data)
+        ratioEvaluation['roe_evaluaton'] = this.isROEGood(data)
+        ratioEvaluation['peg_evaluaton'] = this.isPEGGood(data)
+        const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isROEGood(data) + this.isPEGGood(data)
+        ratioEvaluation['total_evaluation'] = total_evaluation
+        this.request.patch(data._id, ratioEvaluation)
+        .then((data) =>{
+          PubSub.publish("fullCompanyInfoWithTotal", data)
+        })
+      })
   })
 };
 
 
 
 RankingCalculations.prototype.isPEGood = function (companydata){
-
-
 
   let PEratio = companydata.PE;
 
