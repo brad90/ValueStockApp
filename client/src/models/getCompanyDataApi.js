@@ -45,12 +45,9 @@ GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
         bottomRange += 20
         i += 1
       }
-
     }
-      
       getCompanyDataDB.getCompanyFullDataRatios()
       rankingCalculations.isTheStockGoodOrBad()
-
   })
 };
 
