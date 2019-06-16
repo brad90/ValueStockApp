@@ -36,7 +36,7 @@ RankingCalculations.prototype.isTheStockGoodOrBad = function(){
         fullCompanyInfoNumber += 1
       })
       .then(() => {
-        if(fullCompanyInfoNumber == companies.length-1){
+        if(fullCompanyInfoNumber == 441){
           PubSub.publish("fullCompanyInfoWithTotal", fullCompanyInfo)
         }
       })

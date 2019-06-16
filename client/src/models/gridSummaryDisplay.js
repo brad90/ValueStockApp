@@ -16,14 +16,13 @@ GridSummaryDisplay.prototype.bindEvents = function(){
 
       const fullCompanyRatioData = event.detail
       const noNullValues = [];
-
+      console.log(noNullValues);
 
       for(company in fullCompanyRatioData ){
         if(fullCompanyRatioData[company].total_evaluation != null){
           noNullValues.push(fullCompanyRatioData[company])
         }
       }
-      
       const sortedCompanies = this.sortCompanies(noNullValues)
       PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", sortedCompanies)
   })

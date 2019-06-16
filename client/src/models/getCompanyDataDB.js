@@ -31,7 +31,7 @@ GetCompanyDataDB.prototype.getCompanyDataApi = function () {
 GetCompanyDataDB.prototype.getCompanyFullDataRatios = function () {
   this.request.get()
   .then((data) => {
-    PubSub.publish("GetCompanyDataDB:Full-company-ratios", data)
+    PubSub.publish("fullCompanyInfoWithTotal", data)
   })
 }
 
