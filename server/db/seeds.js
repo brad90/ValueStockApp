@@ -1159,15 +1159,6 @@ db.stocks.insertMany([
       "ticker": "LBRDA",
     },
     {
-      "ticker": "LBRDK",
-    },
-    {
-      "ticker": "LSXMB",
-    },
-    {
-      "ticker": "LSXMK",
-    },
-    {
       "ticker": "LULU",
     },
     {

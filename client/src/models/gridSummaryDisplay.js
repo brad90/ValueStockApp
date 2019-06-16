@@ -11,28 +11,34 @@ GridSummaryDisplay.prototype.bindEvents = function(){
 
   let numberOfPublishes = 0
 
-  const sortedCompanies = PubSub.subscribe("full-company-info" , (event) => {
 
-    console.log(event.detail);
+  const sortedCompanies = PubSub.subscribe("fullCompanyInfoWithTotal", (event) => {
 
-    if(event.detail[444].PE != undefined){
       const fullCompanyRatioData = event.detail
       const noNullValues = [];
+
 
       for(company in fullCompanyRatioData ){
         if(fullCompanyRatioData[company].total_evaluation != null){
           noNullValues.push(fullCompanyRatioData[company])
         }
       }
-
-
-      noNullValues.sort(function (a,b) {
-        return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)
-      })
-      PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", noNullValues)
-    }
+      
+      const sortedCompanies = this.sortCompanies(noNullValues)
+      PubSub.publish("Company-ranking-calculations:Sorted-company-ratios", sortedCompanies)
   })
 };
+
+
+GridSummaryDisplay.prototype.sortCompanies = function(companies){
+
+  let number = 0
+  while(number < companies.length){
+  companies.sort(function (a,b) {return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)})
+  number += 1}
+  return companies
+}
+
 
 
 module.exports = GridSummaryDisplay;

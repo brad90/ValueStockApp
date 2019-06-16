@@ -11,28 +11,36 @@ const RankingCalculations= function(){
 };
 
 RankingCalculations.prototype.isTheStockGoodOrBad = function(){
-  PubSub.subscribe("getCompanyDataDB:All-db-companies-Api", (event) => {
+  let fullCompanyInfo
+  let fullCompanyInfoNumber = 0
+  PubSub.subscribe("full-company-info" , (event) => {
 
     console.log(event.detail);
 
-      const companies= event.detail
+    const companies= event.detail
 
-      companies.forEach(data => {
+    companies.forEach(data => {
 
-        const ratioEvaluation = { }
-        ratioEvaluation['pe_evaluation'] = this.isPEGood(data)
-        ratioEvaluation['pb_evaluaton'] = this.isPBGood(data)
-        ratioEvaluation['de_evaluaton'] = this.isDEGood(data)
-        // ratioEvaluation['cr_evaluaton'] = this.isCRGood(data)
-        ratioEvaluation['roe_evaluaton'] = this.isROEGood(data)
-        ratioEvaluation['peg_evaluaton'] = this.isPEGGood(data)
-        const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isROEGood(data) + this.isPEGGood(data)
-        ratioEvaluation['total_evaluation'] = total_evaluation
-        this.request.patch(data._id, ratioEvaluation)
-        .then((data) =>{
-          PubSub.publish("fullCompanyInfoWithTotal", data)
-        })
+      const ratioEvaluation = { }
+      ratioEvaluation['pe_evaluation'] = this.isPEGood(data)
+      ratioEvaluation['pb_evaluaton'] = this.isPBGood(data)
+      ratioEvaluation['de_evaluaton'] = this.isDEGood(data)
+      // ratioEvaluation['cr_evaluaton'] = this.isCRGood(data)
+      ratioEvaluation['roe_evaluaton'] = this.isROEGood(data)
+      ratioEvaluation['peg_evaluaton'] = this.isPEGGood(data)
+      const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isROEGood(data) + this.isPEGGood(data)
+      ratioEvaluation['total_evaluation'] = total_evaluation
+      this.request.patch(data._id, ratioEvaluation)
+      .then((data) => {
+        fullCompanyInfo = data
+        fullCompanyInfoNumber += 1
       })
+      .then(() => {
+        if(fullCompanyInfoNumber == companies.length-1){
+          PubSub.publish("fullCompanyInfoWithTotal", fullCompanyInfo)
+        }
+      })
+    })
   })
 };
 

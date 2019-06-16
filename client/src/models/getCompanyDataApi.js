@@ -34,12 +34,12 @@ GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
       let topRange = 20
       let bottomRange = 0
       let i = 1
-      while(bottomRange < companies.length + 20){
+      while(bottomRange < companies.length + 60){
         let companies20 = companies.slice(bottomRange, topRange)
         for(company in companies20){
-          setTimeout(this.fetchApiInfoHistorical(companies20[company]), i*5000)
-          setTimeout(this.fetchApiInfoCurrent(companies20[company]), i*5000)
-          setTimeout(this.fetchApiGenralInfo(companies20[company]), i*5000)
+          setTimeout(this.fetchApiInfoHistorical(companies20[company]), i*2000)
+          setTimeout(this.fetchApiInfoCurrent(companies20[company]), i*2000)
+          setTimeout(this.fetchApiGenralInfo(companies20[company]), i*2000)
         }
         topRange += 20
         bottomRange += 20
@@ -76,7 +76,7 @@ GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(company){
       companyInfoWithApiNumber += 1
       companyInfoWithApi = data
     }).then(() => {
-      if(companyInfoWithApiNumber == 443){
+      if(companyInfoWithApiNumber == 441){
         PubSub.publish("full-company-info",companyInfoWithApi)
       }
     })
