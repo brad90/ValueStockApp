@@ -16,7 +16,7 @@ GridSummaryDisplay.prototype.bindEvents = function(){
 
       const fullCompanyRatioData = event.detail
       const noNullValues = [];
-      console.log(noNullValues);
+      console.log(fullCompanyRatioData);
 
       for(company in fullCompanyRatioData ){
         if(fullCompanyRatioData[company].total_evaluation != null){

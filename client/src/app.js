@@ -19,11 +19,13 @@ document.addEventListener("DOMContentLoaded",() => {
   const keyMetrics = 'https://financialmodelingprep.com/api/v3/company-key-metrics/';
   const growthStockInfo = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/'
   const generalInfo = 'https://financialmodelingprep.com/api/v3/company/profile/'
+  const financials = 'https://financialmodelingprep.com/api/v3/financials/income-statement/'
 
-  const companyCalculationsAPI = new GetCompanyDataApi(keyMetrics, growthStockInfo, generalInfo)
+
+  const companyCalculationsAPI = new GetCompanyDataApi(keyMetrics, growthStockInfo, generalInfo, financials)
   companyCalculationsAPI.bindEvents()
-
-
+  const rankingCalculations = new RankingCalculations()
+  rankingCalculations.bindEvents()
 
 
   const gridSummaryDisplay = new GridSummaryDisplay()

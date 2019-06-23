@@ -10,49 +10,50 @@ const RankingCalculations= function(){
   this.request = new RequestHelper('http://localhost:3000/api/stocks')
 };
 
+let fullCompanyInfoNumber = 0
+let fullCompanyInfo
+
+RankingCalculations.prototype.bindEvents = function(){this.isTheStockGoodOrBad()}
+
 RankingCalculations.prototype.isTheStockGoodOrBad = function(){
-  let fullCompanyInfo
-  let fullCompanyInfoNumber = 0
-  PubSub.subscribe("full-company-info" , (event) => {
 
-    console.log(event.detail);
-
+  PubSub.subscribe("fullcompanyinfo", (event) => {
     const companies= event.detail
+    console.log(companies);
+    let totalNumberOfCompanies = companies.length;
 
     companies.forEach(data => {
-
       const ratioEvaluation = { }
       ratioEvaluation['pe_evaluation'] = this.isPEGood(data)
       ratioEvaluation['pb_evaluaton'] = this.isPBGood(data)
       ratioEvaluation['de_evaluaton'] = this.isDEGood(data)
-      // ratioEvaluation['cr_evaluaton'] = this.isCRGood(data)
+      ratioEvaluation['cr_evaluaton'] = this.isCRGood(data)
       ratioEvaluation['roe_evaluaton'] = this.isROEGood(data)
+      ratioEvaluation['ey_evaluaton'] = this.isEYGood(data)
       ratioEvaluation['peg_evaluaton'] = this.isPEGGood(data)
-      const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isROEGood(data) + this.isPEGGood(data)
+      const total_evaluation = this.isPEGGood(data) + this.isPBGood(data) + this.isDEGood(data) + this.isROEGood(data) + this.isPEGGood(data) + this.isEYGood(data)
       ratioEvaluation['total_evaluation'] = total_evaluation
       this.request.patch(data._id, ratioEvaluation)
       .then((data) => {
         fullCompanyInfo = data
         fullCompanyInfoNumber += 1
-      })
-      .then(() => {
-        if(fullCompanyInfoNumber == 441){
+      }).then(() => {
+        if(fullCompanyInfoNumber == totalNumberOfCompanies){
           PubSub.publish("fullCompanyInfoWithTotal", fullCompanyInfo)
         }
       })
     })
   })
-};
+}
+
 
 
 
 RankingCalculations.prototype.isPEGood = function (companydata){
-
   let PEratio = companydata.PE;
-
   if(PEratio != undefined){
     PEratio = PEratio[0]
-    const latestPE = PEratio['PE'];
+    const latestPE = PEratio.PE;
     const differenceFromIdealPE = Math.abs(22.0 - latestPE) ;
     // const differenceFromIdealPE = parseFloat(latestPE)
     return differenceFromIdealPE;
@@ -60,15 +61,12 @@ RankingCalculations.prototype.isPEGood = function (companydata){
   console.log('error');
 };
 
-RankingCalculations.prototype.isPBGood = function (companydata){
+RankingCalculations.prototype.isPBGood = function(companydata){
   let PBratio = companydata.PB
 
   if(PBratio != undefined){
     PBratio = PBratio[0]
-    const latestPB = PBratio.BookValuePerShare;
-
-    // const differenceFromIdealPB = parseFloat(latestPB);
-
+    const latestPB = PBratio.PB;
     const differenceFromIdealPB = Math.abs(1.0 - latestPB);
     return differenceFromIdealPB;
   }
@@ -88,23 +86,38 @@ RankingCalculations.prototype.isDEGood = function (companydata){
   console.log('error');
 };
 
-// RankingCalculations.prototype.isCRGood = function (companydata){
-//   let CRratio = companydata.CR;
-//   if(CRratio != undefined){
-//     CRratio = CRratio[0]
-//     const latestCR = CRratio.CR;
-//     // const differenceFromIdealCR = Math.abs(1.2 - latestCR);
-//     const differenceFromIdealCR = parseFloat(latestCR)
-//     return differenceFromIdealCR;
-//   }
-//   console.log('error');
-// };
+RankingCalculations.prototype.isEYGood = function (companydata){
+  let EYratio = companydata.EY;
+  if(EYratio != undefined){
+    EYratio = EYratio[0]
+    const latestEY = EYratio.EY;
+    const differenceFromIdealEY = Math.abs(1.5 - latestEY);
+    // const differenceFromIdealDE =  parseFloat(latestDE)
+
+    return differenceFromIdealEY;
+  }
+  console.log('error');
+};
+
+RankingCalculations.prototype.isCRGood = function (companydata){
+  let CRratio = companydata.CR;
+  if(CRratio != undefined){
+    CRratio = CRratio[0]
+    const latestCR = CRratio.CR;
+    // const differenceFromIdealCR = Math.abs(1.2 - latestCR);
+    const differenceFromIdealCR = Math.abs(1.5 - latestCR)
+    return differenceFromIdealCR;
+  }
+  console.log('error');
+};
 
 RankingCalculations.prototype.isROEGood = function (companydata){
-  let ROEratio = companydata.ROE;
-  if(ROEratio != undefined){
-    ROEratio = ROEratio[0]
-    const latestROE = ROEratio.ROE;
+  let SEPratio = companydata.SEPS
+  let NIratio = companydata.NI
+  if(SEPratio != undefined || NIratio != undefined){
+    SEPratio = SEPratio[0].SEP
+    NIratio = NIratio[0].NI
+    const latestROE = SEPratio/NIratio
     const differenceFromIdealROE = Math.abs(0.15 - latestROE);
     // const differenceFromIdealROE = parseFloat(latestROE)
 
@@ -117,7 +130,7 @@ RankingCalculations.prototype.isPEGGood = function (companydata){
   let PEGratio = companydata.PEG
   if(PEGratio != undefined){
     PEGratio = PEGratio[0]
-    const latestPEG = PEGratio['PEG'];
+    const latestPEG = PEGratio.PEG;
     const differenceFromIdealPEG = Math.abs(1.0 - latestPEG);
     // const differenceFromIdealPEG = parseFloat(latestPEG)
 

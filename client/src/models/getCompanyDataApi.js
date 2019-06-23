@@ -1,177 +1,258 @@
 
-
-
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const GetCompanyDataDB = require('./getCompanyDataDB.js')
 const RankingCalculations = require('./rankingCalculations.js')
-const GetCompanyDataApi = function (keyMetriclUrl, growthUrl, generalUrl){
-  this.keyMetrics = keyMetriclUrl
+const GetCompanyDataApi = function (keyMetriclUrl, growthUrl, generalUrl, financialsUrl){
+  this.keyMetricsUrl = keyMetriclUrl
   this.growthUrl = growthUrl
   this.generalUrl = generalUrl
+  this.financialsUrl = financialsUrl
   this.request = new RequestHelper('http://localhost:3000/api/stocks')
 }
 
+// Initialising classes
 const getCompanyDataDB = new GetCompanyDataDB()
 const rankingCalculations = new RankingCalculations()
+
+// Variables in functions further in codebase.
 let companyInfoWithApiNumber = 0
-let companyInfoWithApi = null
+let companyInfoWithApi
+let ShareholderEquity
+let totalNumberOfCompanies
 
 
 
-
+// Tested - Working - Bind Events is Initialising the function below.
 GetCompanyDataApi.prototype.bindEvents = function () {
   this.getEachCompaniesInfo()
 };
-
 
 
 GetCompanyDataApi.prototype.getEachCompaniesInfo = function (){
   PubSub.subscribe("getCompanyDataDB:All-db-companies", (event) => {
 
     const companies = event.detail
+    totalNumberOfCompanies = companies.length;
+
     if(companies[0].total_evaluation === undefined){
+
+      console.log("api 1");
       let topRange = 20
       let bottomRange = 0
       let i = 1
-      while(bottomRange < companies.length + 60){
+      while(bottomRange < totalNumberOfCompanies+ 60 ){
+
         let companies20 = companies.slice(bottomRange, topRange)
         for(company in companies20){
-          setTimeout(this.fetchApiInfoHistorical(companies20[company]), i*2000)
-          setTimeout(this.fetchApiInfoCurrent(companies20[company]), i*2000)
-          setTimeout(this.fetchApiGenralInfo(companies20[company]), i*2000)
+          setTimeout(this.fetchApiInfoHistorical(companies20[company]), i*10000)
+          // setTimeout(this.fetchApiInfoGrowth(companies20[company]), i*10000)
+          // // setTimeout(this.fetchApiInfoGeneral(companies20[company]), i*10000)
+          // setTimeout(this.fetchApiInfoFinancials(companies20[company]), i*10000)
         }
         topRange += 20
         bottomRange += 20
         i += 1
       }
-    }
+    }else{
       getCompanyDataDB.getCompanyFullDataRatios()
       rankingCalculations.isTheStockGoodOrBad()
+    }
   })
 };
 
 
-GetCompanyDataApi.prototype.fetchdbInfo = function(company){
-  const getCompanyDataDB = new GetCompanyDataDB()
-  const rankingCalculations = new RankingCalculations()
-  getCompanyDataDB.getCompanyDataApi()
-  rankingCalculations.isTheStockGoodOrBad()
-}
 
+// Functions patch information back to the db.
+// Function fetches the data from the historical API.
 GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(company){
-  const requestCompanyData = new RequestHelper (this.keyMetrics + company.ticker)
-  requestCompanyData.get()
+
+  const requestCompanyDataFromApi1 = new RequestHelper (this.keyMetricsUrl + company.ticker)
+  requestCompanyDataFromApi1.get()
   .then((data) => {
-    data["PE"] = this.calculateCompanyPE(data)
-    data["PB"] = this.calculateCompanyPB(data)
-    data["ROE"] = this.calculateCompanyROE(data)
-    data["DE"] = this.calculateCompanyDE(data)
-    // data["CR"] = this.calculateCompanyCurrentRatio(data)
+    data["PE"] = this.getCompanyPE(data)
+    data["PB"] = this.getCompanyPB(data)
+    data["DE"] = this.getCompanyDE(data)
+    data["CR"] = this.getCompanyCR(data)
+    data["EY"] = this.getCompanyEY(data)
+    data["SEPS"] = this.getCompanySEP(data)
+    data["dividend"] = this.getCompanyDividend(data)
     delete data.symbol
     delete data.metrics
     this.request.patch(company._id, data)
-    .then((data) => {
-      companyInfoWithApiNumber += 1
-      companyInfoWithApi = data
-    }).then(() => {
-      if(companyInfoWithApiNumber == 441){
-        PubSub.publish("full-company-info",companyInfoWithApi)
-      }
-    })
   })
-};
 
-GetCompanyDataApi.prototype.fetchApiGenralInfo= function(company){
-  const requestCompanyData = new RequestHelper (this.generalUrl + company.ticker)
-  requestCompanyData.get()
-  .then((data) => {
-    data["sector"] = data.profile.sector
-    data["currentPrice"] = data.profile.price
-    delete data.symbol
-    delete data.profile
-    this.request.patch(company._id, data)
-  })
-};
 
-GetCompanyDataApi.prototype.fetchApiInfoCurrent = function(company){
-  const requestCompanyGrowthData = new RequestHelper (this.growthUrl + company.ticker)
-  requestCompanyGrowthData.get()
+  const requestCompanyDataFromApi3 = new RequestHelper (this.growthUrl + company.ticker)
+  requestCompanyDataFromApi3.get()
   .then((data) => {
-    data['PEG'] = this.calculateCompanyPEG(data)
+    data["PEG"] = this.getCompanyPEG(data)
     delete data.growth
     delete data.symbol
     this.request.patch(company._id, data)
   })
-};
 
-GetCompanyDataApi.prototype.calculateCompanyPE = function(data){
-  const CompanyYearlyPE = []
-  data.metrics.forEach(function(year){
-    const PEratioYearly = { }
-    PEratioYearly['date'] = year.date
-    PEratioYearly['PE'] =  year["PE ratio"]
-    CompanyYearlyPE.push (PEratioYearly)
+  const requestCompanyDataFromApi4 = new RequestHelper (this.financialsUrl+ company.ticker)
+  requestCompanyDataFromApi4.get()
+  .then((data) => {
+    data["NI"] = this.getCompanyNI(data)
+    delete data.financials
+    delete data.symbol
+    this.request.patch(company._id, data)
+    .then((data) => {
+      PubSub.publish("fullcompanyinfo", data)
+    })
   })
-  return  CompanyYearlyPE
+  
 };
 
-GetCompanyDataApi.prototype.calculateCompanyPB = function(data){
-  const CompanyYearlyPB = []
-  data.metrics.forEach(function(year){
-    const PBratioYearly = { }
-    PBratioYearly['date'] =  year.date
-    PBratioYearly["BookValuePerShare"] = year["Book Value per Share"]
-    CompanyYearlyPB.push (PBratioYearly)
-  })
-  return CompanyYearlyPB
-};
 
-GetCompanyDataApi.prototype.calculateCompanyROE = function(data){
-  const CompanyYearlyROE = []
-  data.metrics.forEach(function(year){
-    const ROEratioYearly = { }
-    ROEratioYearly['date'] =  year.date
-    ROEratioYearly['ROE'] =  year["ROE"]
-    CompanyYearlyROE.push (ROEratioYearly)
-  })
-  return CompanyYearlyROE
-};
 
-GetCompanyDataApi.prototype.calculateCompanyDE = function(data){
-  const CompanyYearlyDE = []
-  data.metrics.forEach(function(year){
-    const DEratioYearly = { }
-    DEratioYearly['date'] =  year.date
-    DEratioYearly['DE'] =  year["Debt to Equity"]
-    CompanyYearlyDE.push (DEratioYearly)
-  })
-  return CompanyYearlyDE
-};
-
-// GetCompanyDataApi.prototype.calculateCompanyCurrentRatio = function(data){
-//   const yearlyCurrentRatio = []
-//   data.ratios.forEach(function(year){
-//     const currentRatioYearly = { }
-//     currentRatioYearly['date'] =  year.date
-//     currentRatioYearly['CR'] =  year.liquidityMeasurementRatios.currentRatio
-//     yearlyCurrentRatio.push (currentRatioYearly)
+// // Function fetches the data from the general API.
+// GetCompanyDataApi.prototype.fetchApiInfoGeneral = function(company){
+//   const requestCompanyDataFromApi2 = new RequestHelper (this.generalUrl + company.ticker)
+//   requestCompanyDataFromApi2.get()
+//   .then((data) => {
+//     data["sector"] = data.profile.sector
+//     data["currentPrice"] = data.profile.price
+//     delete data.symbol
+//     delete data.profile
+//     this.request.patch(company._id, data)
 //   })
-//   return yearlyCurrentRatio
+// };
+//
+// // Function fetches the data from the growth API.
+// GetCompanyDataApi.prototype.fetchApiInfoGrowth = function(company){
+//   const requestCompanyDataFromApi3 = new RequestHelper (this.growthUrl + company.ticker)
+//   requestCompanyDataFromApi3.get()
+//   .then((data) => {
+//     data["PEG"] = this.getCompanyPEG(data)
+//     delete data.growth
+//     delete data.symbol
+//     this.request.patch(company._id, data)
+//   })
+// };
+//
+// // Function fetches the data from the financial API.
+// GetCompanyDataApi.prototype.fetchApiInfoFinancials= function(company){
+//   const requestCompanyDataFromApi4 = new RequestHelper (this.financialsUrl+ company.ticker)
+//   requestCompanyDataFromApi4.get()
+//   .then((data) => {
+//     data["NI"] = this.getCompanyNI(data)
+//     delete data.financials
+//     delete data.symbol
+//     this.request.patch(company._id, data)
+//     .then((data) => {
+//       companyInfoWithApi = data
+//     })
+//   // })
 // };
 
-GetCompanyDataApi.prototype.calculateCompanyPEG = function(data){
-  const yearlyCurrentPEG = []
+GetCompanyDataApi.prototype.getCompanyPE = function(data){
+  const yearlyPE = []
+  data.metrics.forEach(function(year){
+    const PEratioYearly = { }
+    PEratioYearly["date"] = year.date
+    PEratioYearly["PE"] =  year["PE ratio"]
+    yearlyPE.push (PEratioYearly)
+  })
+  return yearlyPE
+};
+
+// Fetches Price on book earning.
+GetCompanyDataApi.prototype.getCompanyPB = function(data){
+  const yearlyPB = []
+  data.metrics.forEach(function(year){
+    const PBratioYearly = { }
+    PBratioYearly["date"] =  year.date
+    PBratioYearly["PB"] = year["Book Value per Share"]
+    yearlyPB.push (PBratioYearly)
+  })
+  return yearlyPB
+};
+
+// Fetches return on earnings.
+GetCompanyDataApi.prototype.getCompanyNI = function(data){
+  const yearlyNI = []
+  data.financials.forEach(function(year){
+    const NIratioYearly = { }
+    NIratioYearly["date"] =  year.date
+    NIratioYearly["NI"] = year["Net Income"]
+    yearlyNI.push(NIratioYearly)
+  })
+  return yearlyNI
+};
+
+// Fetches debt to earnings ratio.
+GetCompanyDataApi.prototype.getCompanyDE = function(data){
+  const yearlyDE = []
+  data.metrics.forEach(function(year){
+    const DEratioYearly = { }
+    DEratioYearly["date"] =  year.date
+    DEratioYearly["DE"] =  year["Debt to Equity"]
+    yearlyDE.push (DEratioYearly)
+  })
+  return yearlyDE
+};
+
+// Fetches price earnings to growth.
+GetCompanyDataApi.prototype.getCompanyPEG = function(data){
+  const yearlyPEG = []
   data.growth.forEach(function(year){
     const PEGRatioYearly = { }
-    PEGRatioYearly['date'] =  year.date
-    PEGRatioYearly['PEG'] = year["5Y Revenue Growth (per Share)"]
-    yearlyCurrentPEG.push(PEGRatioYearly)
+    PEGRatioYearly["date"] =  year.date
+    PEGRatioYearly["PEG"] = year["5Y Revenue Growth (per Share)"]
+    yearlyPEG.push(PEGRatioYearly)
   })
-  return yearlyCurrentPEG
+  return yearlyPEG
+};
+
+// Fetches share price equity.
+GetCompanyDataApi.prototype.getCompanySEP = function(data){
+  const yearlySEP = []
+  data.metrics.forEach(function(year){
+    const SEPRatioYearly = { }
+    SEPRatioYearly["date"] =  year.date
+    SEPRatioYearly["SEP"] = year["Shareholders Equity per Share"]
+    yearlySEP.push(SEPRatioYearly)
+  })
+  return yearlySEP
+};
+
+// Fetches current ratio.
+GetCompanyDataApi.prototype.getCompanyCR = function(data){
+  const yearlyCR = []
+  data.metrics.forEach(function(year){
+    const CRRatioYearly = { }
+    CRRatioYearly["date"] =  year.date
+    CRRatioYearly["CR"] = year["Debt to Assets"]
+    yearlyCR.push(CRRatioYearly)
+  })
+  return yearlyCR
 };
 
 
+GetCompanyDataApi.prototype.getCompanyDividend = function(data){
+  const yearlyDiv = []
+  data.metrics.forEach(function(year){
+    const DivRatioYearly = { }
+    DivRatioYearly["date"] =  year.date
+    DivRatioYearly["dividend"] = year["Dividend Yield"]
+    yearlyDiv.push(DivRatioYearly)
+  })
+  return yearlyDiv
+};
+
+GetCompanyDataApi.prototype.getCompanyEY = function(data){
+  const yearlyEY = []
+  data.metrics.forEach(function(year){
+    const EyRatioYearly = { }
+    EyRatioYearly["date"] =  year.date
+    EyRatioYearly["EY"] = year["Earnings Yield"]
+    yearlyEY.push(EyRatioYearly)
+  })
+  return yearlyEY
+};
 
 
 
