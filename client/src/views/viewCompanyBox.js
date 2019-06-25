@@ -8,15 +8,16 @@ const CompanyBoxSummary = function (container) {
 
 CompanyBoxSummary.prototype.render = function (company) {
 
-  console.log(company);
 
   const companySummaryBox = document.createElement('div')
   companySummaryBox.classList.add('companysummarybox')
   const tickerSymbol = this.tickerSymbol(company)
+  const industry = this.industry(company)
   const companySummaryBoxReadMoreButton = this.companySummaryReadMoreButton(company)
   const companyEvaluationGraph = this.companyEvaluationGraph(company)
 
   companySummaryBox.appendChild(tickerSymbol)
+  companySummaryBox.appendChild(industry)
   companySummaryBox.appendChild(companyEvaluationGraph)
   companySummaryBox.appendChild(companySummaryBoxReadMoreButton)
 
@@ -31,11 +32,11 @@ CompanyBoxSummary.prototype.tickerSymbol = function (company) {
   return tickerSymbol
 };
 
-CompanyBoxSummary.prototype.tickerSymbol2 = function (company) {
-  const tickerSymbol2 = document.createElement('h2')
-  tickerSymbol2.textContent = company.industry
-  tickerSymbol2.classList.add('ticker-symbol-box-summary')
-  return tickerSymbol2
+CompanyBoxSummary.prototype.industry = function (company) {
+  const industry= document.createElement('h5')
+  industry.textContent = company.sector
+  industry.classList.add('industry-box-summary')
+  return industry
 };
 
 CompanyBoxSummary.prototype.companySummaryReadMoreButton = function (company) {

@@ -40,7 +40,9 @@
     <!-- Container Right -->
     <div class="mainpage" id="container-right" >
       <!-- <image class="mainpage" src = "./images/bearbull.jpg" id="bear"> -->
-      <div id="chart" width="8000" height="8000"></div>
+      <div class ="mainpage topStock" id="topStocks"></div>
+      <div class ="mainpage topStock" id="topStockstwo"></div>
+      <!-- <div id="chart" width="8000" height="8000"></div> -->
     </div>
     <!-- Images At Bottom -->
   </div>
@@ -52,6 +54,20 @@
   </div>
 
     <!-- Grid Display  -->
+
+    <h1> Select an sector.</h1>
+
+    <select id="selector">
+      <option value="Technology">Technology</option>
+      <option value="Real Estate">Real Estate</option>
+      <option value="Financial Services">Financial Services</option>
+      <option value="Healthcare">Healthcare</option>
+      <option value="Consumer Defensive">Consumer Defensive</option>
+      <option value="Industrials">Industrials</option>
+      <option value="Communication Services">Communication Services</option>
+      <option value="Utilities">Utilities</option>
+      <option value="Consumer Cyclical">Consumer Cyclical</option>
+    </select>
 
     <div  class="visibility-hidden" id="company-grid-summary"></div>
     <div  class="visibility-hidden" id="company-single-page"></div>

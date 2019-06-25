@@ -7,16 +7,18 @@ const ViewCompanyGridPage = function (container) {
 };
 
 
-
 ViewCompanyGridPage.prototype.bindEvents = function () {
   this.render()
+  this.sectorSelector()
 };
+
+let fullCompanyInfoArray
 
 
 ViewCompanyGridPage.prototype.render = function () {
-  PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
 
-    const fullCompanyInfoArray = event.detail
+  PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
+    fullCompanyInfoArray = event.detail
     const companyBoxSummary = new CompanyBoxSummary(this.container)
     fullCompanyInfoArray.forEach(company => {
       const renderedSumaryBox = companyBoxSummary.render(company)
@@ -24,6 +26,31 @@ ViewCompanyGridPage.prototype.render = function () {
     })
   })
 };
+
+
+ViewCompanyGridPage.prototype.sectorSelector = function(){
+
+  const companyBoxSummary = new CompanyBoxSummary(this.container)
+  console.log("hello");
+  const selector = document.querySelector("#selector")
+  console.log(selector);
+
+  document.addEventListener("change", (event) => {
+    console.log(event.target.value)
+    this.container.innerHTML = ""
+    const selection = event.target.value
+    fullCompanyInfoArray.forEach(company => {
+      if(selection === company.sector){
+        console.log("hello")
+        const renderedSumaryBox = companyBoxSummary.render(company)
+        this.container.appendChild(renderedSumaryBox)
+      }
+    })
+  })
+  // })
+};
+
+
 
 
 

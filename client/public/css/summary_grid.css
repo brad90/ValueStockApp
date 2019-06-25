@@ -11,6 +11,10 @@ src: url("css/fonts/LeagueSpartan-Bold.otf");
   width:100%;
 }
 
+.industry-box-summary{
+  display: inline-block;
+}
+
 .companysummarybox{
   display:inline-block!important;
   /* border:2px solid black; */
