@@ -60,3 +60,44 @@ src: url("css/fonts/LeagueSpartan-Bold.otf");
   padding: 2% 0%;
   font-family: helvetica;
 }
+
+.selector{
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10%;
+  width:100%;
+}
+
+.selector-header{
+  width= 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#selector{
+  -webkit-appearance: none;
+  width: 40%;
+  left: 30%;
+  display: flex;
+  border: none;
+  border-bottom: 1px solid black;
+  border-radius: 0px;
+  justify-content: center;
+  padding: 1%;
+  font-family: Arial;
+  font-size: 1.5rem;
+}
+
+#selector focus{
+  appearance:none;
+}
+
+.selector-dropdown{
+  margin-top: 3%;
+  display: flex;
+  justify-content: center;
+}
+
+#company-grid-summary{
+  padding-top: 8%;
+}

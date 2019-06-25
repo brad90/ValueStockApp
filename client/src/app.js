@@ -33,14 +33,15 @@ document.addEventListener("DOMContentLoaded",() => {
 
   // Below: Rendering the screen with the company info.
   const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary')
+  const viewMainPageContainerGrid = document.querySelectorAll(".company-grid-summary")
   const viewCompanyBox = new ViewCompanyBox(companyGridBoxSummaryContainer)
-  const viewCompanyGridPage = new ViewCompanyGridPage(companyGridBoxSummaryContainer)
+  const viewCompanyGridPage = new ViewCompanyGridPage(companyGridBoxSummaryContainer, viewMainPageContainerGrid)
   viewCompanyGridPage.bindEvents()
 
 
   const viewMainPageContainerFold = document.querySelectorAll(".mainpage")
   const viewMainPageGraphContainerFold = document.querySelectorAll("#myGraph")
-  const viewMainPageContainerGrid = document.querySelector("#company-grid-summary")
+
   const viewMainPageContainerRight = document.querySelector('#topStocks')
   const viewMainPageContainerRightTwo = document.querySelector("#topStockstwo")
   const viewMainPage = new ViewMainPage(viewMainPageContainerFold, viewMainPageContainerGrid,viewMainPageGraphContainerFold, viewMainPageContainerRight, viewMainPageContainerRightTwo)

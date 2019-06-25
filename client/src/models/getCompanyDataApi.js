@@ -106,6 +106,7 @@ GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(company){
   const requestCompanyDataFromApi2 = new RequestHelper (this.generalUrl + company.ticker)
   requestCompanyDataFromApi2.get()
   .then((data) => {
+    data["companyName"] = data.profile.companyName
     data["sector"] = data.profile.sector
     data["currentPrice"] = data.profile.price
     delete data.symbol
@@ -197,7 +198,7 @@ GetCompanyDataApi.prototype.fetchApiInfoHistorical = function(company){
 
 GetCompanyDataApi.prototype.getCompanyPE = function(data){
 
-    
+
     const yearlyPE = []
     const PEratioYearly = { }
     PEratioYearly["date"] = data.metrics[0].date

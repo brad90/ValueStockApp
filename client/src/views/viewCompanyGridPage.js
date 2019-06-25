@@ -2,8 +2,9 @@ const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const CompanyBoxSummary = require('./viewCompanyBox.js')
 
-const ViewCompanyGridPage = function (container) {
+const ViewCompanyGridPage = function (container, allcontainers) {
   this.container = container
+  this.allcontainers = allcontainers
 };
 
 
@@ -31,17 +32,18 @@ ViewCompanyGridPage.prototype.render = function () {
 ViewCompanyGridPage.prototype.sectorSelector = function(){
 
   const companyBoxSummary = new CompanyBoxSummary(this.container)
-  console.log("hello");
   const selector = document.querySelector("#selector")
-  console.log(selector);
 
   document.addEventListener("change", (event) => {
-    console.log(event.target.value)
+    this.allcontainers.forEach(element => element.classList.remove('visibility-hidden'))
     this.container.innerHTML = ""
     const selection = event.target.value
     fullCompanyInfoArray.forEach(company => {
       if(selection === company.sector){
-        console.log("hello")
+        const renderedSumaryBox = companyBoxSummary.render(company)
+        this.container.appendChild(renderedSumaryBox)
+
+      }else if(selection === "All"){
         const renderedSumaryBox = companyBoxSummary.render(company)
         this.container.appendChild(renderedSumaryBox)
       }

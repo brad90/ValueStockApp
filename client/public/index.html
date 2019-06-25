@@ -55,9 +55,13 @@
 
     <!-- Grid Display  -->
 
+    <div class = "selector-header visibility-hidden">
     <h1> Select an sector.</h1>
+    </div>
 
-    <select id="selector">
+    <div class="selector-dropdown visibility-hidden">
+    <select id="selector visibility-hidden">
+      <option value="All">All</option>
       <option value="Technology">Technology</option>
       <option value="Real Estate">Real Estate</option>
       <option value="Financial Services">Financial Services</option>
@@ -68,8 +72,29 @@
       <option value="Utilities">Utilities</option>
       <option value="Consumer Cyclical">Consumer Cyclical</option>
     </select>
+    </div>
 
-    <div  class="visibility-hidden" id="company-grid-summary"></div>
+    <div class = "selector-header visibility-hidden company-grid-summary">
+    <h1> Narrow your search, select a sector...</h1>
+    </div>
+
+    <div class="selector-dropdown visibility-hidden company-grid-summary">
+    <select class="company-grid-summary" id="selector visibility-hidden">
+      <option value="All">All</option>
+      <option value="Technology">Technology</option>
+      <option value="Real Estate">Real Estate</option>
+      <option value="Financial Services">Financial Services</option>
+      <option value="Healthcare">Healthcare</option>
+      <option value="Consumer Defensive">Consumer Defensive</option>
+      <option value="Industrials">Industrials</option>
+      <option value="Communication Services">Communication Services</option>
+      <option value="Utilities">Utilities</option>
+      <option value="Consumer Cyclical">Consumer Cyclical</option>
+    </select>
+    </div>
+
+
+    <div  class="visibility-hidden company-grid-summary" id="company-grid-summary"></div>
     <div  class="visibility-hidden" id="company-single-page"></div>
 
 
