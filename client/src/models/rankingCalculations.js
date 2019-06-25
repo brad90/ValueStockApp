@@ -19,7 +19,6 @@ RankingCalculations.prototype.isTheStockGoodOrBad = function(){
 
   PubSub.subscribe("fullcompanyinfo", (event) => {
     const companies= event.detail
-    console.log(companies);
     let totalNumberOfCompanies = companies.length;
 
     companies.forEach(data => {
@@ -112,12 +111,12 @@ RankingCalculations.prototype.isCRGood = function (companydata){
 };
 
 RankingCalculations.prototype.isROEGood = function (companydata){
-  let SEPratio = companydata.SEPS
-  let NIratio = companydata.NI
-  if(SEPratio != undefined || NIratio != undefined){
-    SEPratio = SEPratio[0].SEP
+  // let SEPratio = companydata.SEPS
+  let NIratio = companydata.ROE
+  if(NIratio != undefined){
+    // SEPratio = SEPratio[0].SEP
     NIratio = NIratio[0].NI
-    const latestROE = SEPratio/NIratio
+    const latestROE = NIratio
     const differenceFromIdealROE = Math.abs(0.15 - latestROE);
     // const differenceFromIdealROE = parseFloat(latestROE)
 

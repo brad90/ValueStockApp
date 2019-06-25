@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded",() => {
 
 
   const viewMainPageContainerFold = document.querySelectorAll(".mainpage")
-  console.log(viewMainPageContainerFold);
+  const viewMainPageGraphContainerFold = document.querySelectorAll("#myGraph")
   const viewMainPageContainerGrid = document.querySelector("#company-grid-summary")
-  const viewMainPage = new ViewMainPage(viewMainPageContainerFold, viewMainPageContainerGrid)
+  const viewMainPage = new ViewMainPage(viewMainPageContainerFold, viewMainPageContainerGrid,viewMainPageGraphContainerFold)
   viewMainPage.bindEvents()
 
 

@@ -25,6 +25,8 @@
     "webpack-cli": "^3.3.2"
   },
   "dependencies": {
+    "apexcharts": "^3.8.1",
+    "chart.js": "^2.8.0",
     "express": "^4.17.1",
     "mongod": "^2.0.0",
     "mongodb": "^3.2.6"

@@ -15,14 +15,13 @@ ViewCompanyGridPage.prototype.bindEvents = function () {
 
 ViewCompanyGridPage.prototype.render = function () {
   PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
-    console.log(event.detail);
+
     const fullCompanyInfoArray = event.detail
     const companyBoxSummary = new CompanyBoxSummary(this.container)
     fullCompanyInfoArray.forEach(company => {
       const renderedSumaryBox = companyBoxSummary.render(company)
       this.container.appendChild(renderedSumaryBox)
     })
-
   })
 };
 

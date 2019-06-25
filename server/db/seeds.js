@@ -3,9 +3,9 @@ use valued_stocks;
 db.dropDatabase();
 
 db.stocks.insertMany([
-    {
-      "ticker": "MMM",
-    },
+    // {
+    //   "ticker": "MMM",
+    // },
     // {
     //   "ticker": "ABT",
     // },
@@ -1221,109 +1221,109 @@ db.stocks.insertMany([
     // {
     //   "ticker": "PEP",
     // },
-    // {
-    //   "ticker": "PFG",
-    // },
-    // {
-    //   "ticker": "QCOM",
-    // },
-    // {
-    //   "ticker": "REG",
-    // },
-    // {
-    //   "ticker": "REGN",
-    // },
-    // {
-    //   "ticker": "ROKU",
-    // },
-    // {
-    //   "ticker": "ROST",
-    // },
-    // {
-    //   "ticker": "SBAC",
-    // },
-    // {
-    //   "ticker": "SGEN",
-    // },
-    // {
-    //   "ticker": "SIRI",
-    // },
-    // {
-    //   "ticker": "SWKS",
-    // },
-    // {
-    //   "ticker": "SPLK",
-    // },
-    // {
-    //   "ticker": "SSNC",
-    // },
-    // {
-    //   "ticker": "SBUX",
-    // },
-    // {
-    //   "ticker": "SIVB",
-    // },
-    // {
-    //   "ticker": "SYMC",
-    // },
-    // {
-    //   "ticker": "SNPS",
-    // },
-    // {
-    //   "ticker": "TTWO",
-    // },
-    // {
-    //   "ticker": "AMTD",
-    // },
-    // {
-    //   "ticker": "TSLA",
-    // },
-    // {
-    //   "ticker": "TXN",
-    // },
-    // {
-    //   "ticker": "KHC",
-    // },
-    // {
-    //   "ticker": "TMUS",
-    // },
-    // {
-    //   "ticker": "TSCO",
-    // },
-    // {
-    //   "ticker": "TRMB",
-    // },
-    // {
-    //   "ticker": "ULTA",
-    // },
-    // {
-    //   "ticker": "UAL",
-    // },
-    // {
-    //   "ticker": "VRSN",
-    // },
-    // {
-    //   "ticker": "VRSK",
-    // },
-    // {
-    //   "ticker": "VIAB",
-    // },
-    // {
-    //   "ticker": "WBA",
-    // },
-    // {
-    //   "ticker": "WDC",
-    // },
-    // {
-    //   "ticker": "WDAY",
-    // },
-    // {
-    //   "ticker": "WYNN",
-    // },
-    // {
-    //   "ticker": "XEL",
-    // },
-    // {
-    //   "ticker": "XLNX",
-    // }
+    {
+      "ticker": "PFG",
+    },
+    {
+      "ticker": "QCOM",
+    },
+    {
+      "ticker": "REG",
+    },
+    {
+      "ticker": "REGN",
+    },
+    {
+      "ticker": "ROKU",
+    },
+    {
+      "ticker": "ROST",
+    },
+    {
+      "ticker": "SBAC",
+    },
+    {
+      "ticker": "SGEN",
+    },
+    {
+      "ticker": "SIRI",
+    },
+    {
+      "ticker": "SWKS",
+    },
+    {
+      "ticker": "SPLK",
+    },
+    {
+      "ticker": "SSNC",
+    },
+    {
+      "ticker": "SBUX",
+    },
+    {
+      "ticker": "SIVB",
+    },
+    {
+      "ticker": "SYMC",
+    },
+    {
+      "ticker": "SNPS",
+    },
+    {
+      "ticker": "TTWO",
+    },
+    {
+      "ticker": "AMTD",
+    },
+    {
+      "ticker": "TSLA",
+    },
+    {
+      "ticker": "TXN",
+    },
+    {
+      "ticker": "KHC",
+    },
+    {
+      "ticker": "TMUS",
+    },
+    {
+      "ticker": "TSCO",
+    },
+    {
+      "ticker": "TRMB",
+    },
+    {
+      "ticker": "ULTA",
+    },
+    {
+      "ticker": "UAL",
+    },
+    {
+      "ticker": "VRSN",
+    },
+    {
+      "ticker": "VRSK",
+    },
+    {
+      "ticker": "VIAB",
+    },
+    {
+      "ticker": "WBA",
+    },
+    {
+      "ticker": "WDC",
+    },
+    {
+      "ticker": "WDAY",
+    },
+    {
+      "ticker": "WYNN",
+    },
+    {
+      "ticker": "XEL",
+    },
+    {
+      "ticker": "XLNX",
+    }
   ]);

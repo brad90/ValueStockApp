@@ -1,6 +1,6 @@
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
-
+const Chart = require('chart.js');
 const CompanyBoxSummary = function (container) {
   this.container
 };
@@ -8,18 +8,19 @@ const CompanyBoxSummary = function (container) {
 
 CompanyBoxSummary.prototype.render = function (company) {
 
+  console.log(company);
+
   const companySummaryBox = document.createElement('div')
   companySummaryBox.classList.add('companysummarybox')
   const tickerSymbol = this.tickerSymbol(company)
   const companySummaryBoxReadMoreButton = this.companySummaryReadMoreButton(company)
-  const companyEvaluationGraph = this.companyEvaluationGraph()
+  const companyEvaluationGraph = this.companyEvaluationGraph(company)
 
   companySummaryBox.appendChild(tickerSymbol)
   companySummaryBox.appendChild(companyEvaluationGraph)
   companySummaryBox.appendChild(companySummaryBoxReadMoreButton)
 
   return companySummaryBox
-
 };
 
 
@@ -32,7 +33,7 @@ CompanyBoxSummary.prototype.tickerSymbol = function (company) {
 
 CompanyBoxSummary.prototype.tickerSymbol2 = function (company) {
   const tickerSymbol2 = document.createElement('h2')
-  tickerSymbol2.textContent = company.PE
+  tickerSymbol2.textContent = company.industry
   tickerSymbol2.classList.add('ticker-symbol-box-summary')
   return tickerSymbol2
 };
@@ -42,16 +43,18 @@ CompanyBoxSummary.prototype.companySummaryReadMoreButton = function (company) {
   readMoreButton.classList.add('summaryBoxButton')
   readMoreButton.innerHTML = ('value','Read More')
   readMoreButton.value = (company._id)
-  readMoreButton.addEventListener('click', (event)=>{
+  readMoreButton.addEventListener('click',(event) => {
     PubSub.publish("ViewBoxSummary: selected-company-single-page", event.target.value);
   })
   return readMoreButton
 };
 
-CompanyBoxSummary.prototype.companyEvaluationGraph = function (){
+CompanyBoxSummary.prototype.companyEvaluationGraph = function (company){
   const graph = document.createElement('div')
-  graph.classList.add('company-graph')
-  return graph
+  const graphPlaceholder = document.createElement('h1')
+  graphPlaceholder.textContent ="+ " + company.total_evaluation.toFixed(2)
+  graphPlaceholder.classList.add('company-graph')
+  return graphPlaceholder
 }
 
 
