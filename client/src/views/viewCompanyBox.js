@@ -1,86 +1,69 @@
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const Chart = require('chart.js');
+
 const CompanyBoxSummary = function (container) {
-  this.container
+    this.container = container
 };
 
 
 CompanyBoxSummary.prototype.render = function (company) {
 
 
-  const companySummaryBox = document.createElement('div')
-  companySummaryBox.classList.add('companysummarybox')
-  const tickerSymbol = this.tickerSymbol(company)
-  const companyName = this.companyName(company)
-  const industry = this.industry(company)
-  const companySummaryBoxReadMoreButton = this.companySummaryReadMoreButton(company)
-  const companyEvaluationGraph = this.companyEvaluationGraph(company)
+    const StockSummaryBox = document.createElement('div')
+    const tickerSymbol = this.tickerSymbol(company)
+    const companyName = this.companyName(company)
+    const sector = this.sector(company)
+    const readMoreButton = this.readMoreButton(company)
+    const companyEvaluation = this.companyEvaluation(company)
 
-  companySummaryBox.appendChild(tickerSymbol)
-  companySummaryBox.appendChild(companyName)
-  companySummaryBox.appendChild(industry)
-  companySummaryBox.appendChild(companyEvaluationGraph)
-  companySummaryBox.appendChild(companySummaryBoxReadMoreButton)
+    StockSummaryBox.appendChild(tickerSymbol)
+    StockSummaryBox.appendChild(companyName)
+    StockSummaryBox.appendChild(sector)
+    StockSummaryBox.appendChild(companyEvaluation)
+    StockSummaryBox.appendChild(readMoreButton)
+    StockSummaryBox.classList.add('companysummarybox')
 
-  return companySummaryBox
+    return StockSummaryBox
 };
 
 
 CompanyBoxSummary.prototype.tickerSymbol = function (company) {
-  const tickerSymbol = document.createElement('h2')
-  tickerSymbol.textContent = company.ticker
-  tickerSymbol.classList.add('ticker-symbol-box-summary')
-  return tickerSymbol
+    const tickerSymbol = document.createElement('h2')
+    tickerSymbol.textContent = company.ticker
+    tickerSymbol.classList.add('ticker-symbol-box-summary')
+    return tickerSymbol
 };
 
 CompanyBoxSummary.prototype.companyName = function (company) {
-  const companyName= document.createElement('h5')
-  companyName.textContent = company.companyName.substring(0,35)
-  companyName.classList.add('companyName-box-summary')
-  return companyName
+    const companyName = document.createElement('h5')
+    companyName.textContent = company.companyName.substring(0,35)
+    companyName.classList.add('companyName-box-summary')
+    return companyName
 };
 
-CompanyBoxSummary.prototype.industry = function (company) {
-  const industry= document.createElement('h5')
-  industry.textContent = company.sector
-  industry.classList.add('industry-box-summary')
-  return industry
+CompanyBoxSummary.prototype.sector = function (company) {
+    const sector = document.createElement('h5')
+    sector.textContent = company.sector
+    sector.classList.add('industry-box-summary')
+    return sector
 };
 
-CompanyBoxSummary.prototype.companySummaryReadMoreButton = function (company) {
-  const readMoreButton = document.createElement('button')
-  readMoreButton.classList.add('summaryBoxButton')
-  readMoreButton.innerHTML = ('value','Read More')
-  readMoreButton.value = (company._id)
-  // readMoreButton.addEventListener('click',(event) => {
-  //   PubSub.publish("ViewBoxSummary: selected-company-single-page", event.target.value);
-  // })
-  return readMoreButton
+CompanyBoxSummary.prototype.readMoreButton = function (company) {
+    const readMoreButton = document.createElement('button')
+    readMoreButton.classList.add('summaryBoxButton')
+    readMoreButton.innerHTML = ('value','Read More')
+    readMoreButton.value = (company._id)
+    return readMoreButton
 };
 
-CompanyBoxSummary.prototype.companyEvaluationGraph = function (company){
-  const graph = document.createElement('div')
-  const graphPlaceholder = document.createElement('h1')
-  graphPlaceholder.textContent ="+ " + company.total_evaluation.toFixed(2)
-  graphPlaceholder.classList.add('company-graph')
-  return graphPlaceholder
-}
-
-
-// CompanyBoxSummary.prototype.companySelected = function () {
-//   const targetCompanyButtonAll = document.querySelector('.summaryBoxButton')
-//
-//   this.companySummaryReadMoreButton().addEventListener('click', (event)=>{
-//     console.log(event);
-//
-//     // companyButton.addEventListener('click', (event) => {
-//     //   const id = event.target.value
-//     //   PubSub.publish('View_grid_company_box_summary: EventListener-read-more', id)
-//     //   this.container.classList.add('visibility-hidden')
-//     // })
-//     })
-//   };
+CompanyBoxSummary.prototype.companyEvaluation = function (company){
+    const graph = document.createElement('div')
+    const companyEvaluation = document.createElement('h1')
+    companyEvaluation.textContent ="+ " + company.total_evaluation.toFixed(2)
+    companyEvaluation.classList.add('company-graph')
+    return companyEvaluation
+};
 
 
 

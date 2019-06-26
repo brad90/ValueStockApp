@@ -40,10 +40,9 @@ document.addEventListener("DOMContentLoaded",() => {
 
     // <-------------- All companies ranked in order page view  ---------------- >
     const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary');
+    const allGridItemsView = document.querySelectorAll(".company-grid-summary");
 
-    const viewMainPageContainerGrid = document.querySelectorAll(".company-grid-summary");
-
-    const stockGridPageView = new StockGridPageView(companyGridBoxSummaryContainer, viewMainPageContainerGrid);
+    const stockGridPageView = new StockGridPageView(companyGridBoxSummaryContainer, allGridItemsView);
     const stockBoxView = new StockBoxView(companyGridBoxSummaryContainer);
     stockGridPageView.bindEvents()
 
@@ -56,7 +55,7 @@ document.addEventListener("DOMContentLoaded",() => {
     const viewMainPageContainerRightTwo = document.querySelector("#topStockstwo");
     const mainPageView = new MainPageView(
         allMainPageItemsView,
-        viewMainPageContainerGrid,
+        allGridItemsView,
         mainPageGraphView,
         mainPageContainerRightView,
         viewMainPageContainerRightTwo

@@ -1,74 +1,53 @@
 const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
-const CompanyBoxSummary = require('./viewCompanyBox.js')
+const StockBoxSummary = require('./viewCompanyBox.js')
 
-const ViewCompanyGridPage = function (container , allcontainers) {
-  this.container = container
-  this.allcontainers = allcontainers
+
+const ViewCompanyGridPage = function (container , allGridItemsView) {
+    this.container = container
+    this.allcontainers = allGridItemsView
 };
 
 
 ViewCompanyGridPage.prototype.bindEvents = function () {
-  this.render()
-  this.sectorSelector()
+    this.render()
+    this.sectorSelector()
 };
 
+
+// <---------------- Set up Variables --------------------->
 let fullCompanyInfoArray
+const stockBoxSummary = new StockBoxSummary(this.container)
 
 
 ViewCompanyGridPage.prototype.render = function () {
-
-  PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
-    fullCompanyInfoArray = event.detail
-    const companyBoxSummary = new CompanyBoxSummary(this.container)
-    fullCompanyInfoArray.forEach(company => {
-      const renderedSumaryBox = companyBoxSummary.render(company)
-      this.container.appendChild(renderedSumaryBox)
+    PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
+        fullCompanyInfoArray = event.detail
+        fullCompanyInfoArray.forEach(company => {
+            const renderedStockBox = stockBoxSummary.render(company)
+            this.container.appendChild(renderedStockBox)
+        })
     })
-  })
 };
 
 
 ViewCompanyGridPage.prototype.sectorSelector = function(){
-
-  const companyBoxSummary = new CompanyBoxSummary(this.container)
-  const selector = document.querySelector("#selector")
-
-  document.addEventListener("change", (event) => {
-    this.allcontainers.forEach(element => element.classList.remove('visibility-hidden'))
-    this.container.innerHTML = ""
-    const selection = event.target.value
-    fullCompanyInfoArray.forEach(company => {
-      if(selection === company.sector){
-        const renderedSumaryBox = companyBoxSummary.render(company)
-        this.container.appendChild(renderedSumaryBox)
-
-      }else if(selection === "All"){
-        const renderedSumaryBox = companyBoxSummary.render(company)
-        this.container.appendChild(renderedSumaryBox)
-      }
+    const selector = document.querySelector("#selector")
+    selector.addEventListener("change", (event) => {
+        this.allcontainers.forEach(element => element.classList.remove('visibility-hidden'))
+        this.container.innerHTML = ""
+        const selection = event.target.value
+        fullCompanyInfoArray.forEach(company => {
+            if(selection === company.sector){
+                const renderedStockBox = stockBoxSummary.render(company)
+                this.container.appendChild(renderedStockBox)
+            }else if(selection === "All"){
+                const renderedStockBox = stockBoxSummary.render(company)
+                this.container.appendChild(renderedStockBox)
+            }
+        })
     })
-  })
-  // })
 };
-
-
-
-
-
-
-// const companyButton = document.querySelectorAll('.box-summary-read-more-button')
-// console.log(companyButton);
-
-
-
-
-
-
-
-
-
-
 
 
 module.exports = ViewCompanyGridPage;
