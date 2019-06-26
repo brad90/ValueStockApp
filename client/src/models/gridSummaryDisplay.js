@@ -6,7 +6,7 @@ const GetCompanyDataDB = require('./getCompanyDataDB.js')
 
 const GridSummaryDisplay = function () {
     this.request = new RequestHelper('http://localhost:3000/api/stocks')
-}
+};
 
 GridSummaryDisplay.prototype.bindEvents = function(){
     let numberOfPublishes = 0
@@ -31,7 +31,7 @@ GridSummaryDisplay.prototype.sortCompanies = function(companies){
         number += 1
     }
     return companies
-}
+};
 
 
 
