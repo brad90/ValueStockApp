@@ -18,8 +18,6 @@ ViewMainPage.prototype.bindEvents = function() {
     this.navViewAllButtonClick()
     this.renderBestShare()
 
-    console.log(this.containerBestStock1);
-    console.log(this.containerBestStock2);
 };
 
 // <---------------- Event Listeners -------------------------->
@@ -54,8 +52,7 @@ ViewMainPage.prototype.navViewAllButtonClick = function () {
 // <---------------- Rendering Best Companies -------------------------->
 
 ViewMainPage.prototype.renderBestShare = function () {
-    PubSub.subscribe("Company-ranking-calculations: Sorted-company-ratios", (event) => {
-        console.log(event);
+    PubSub.subscribe("Company-ranking-calculations:Sorted-company-ratios", (event) => {
         const Topcompany1 = event.detail[0];
         const Topcompany2 = event.detail[1];
         const renderedSumaryBox1 = this.render(Topcompany1)
@@ -119,9 +116,7 @@ ViewMainPage.prototype.readMoreButton = function (company) {
     readMoreButton.classList.add('summary-box-button')
     readMoreButton.innerHTML = ('value','Read More')
     readMoreButton.value = (company._id)
-    readMoreButton.addEventListener('click', (event) => {
-        PubSub.publish("ViewBoxSummary: selected-company-single-page", event.target.value);
-    })
+    readMoreButton.addEventListener('click', (event) => { PubSub.publish("ViewBoxSummary: selected-company-single-page", event.target.value)})
     return readMoreButton
 };
 
