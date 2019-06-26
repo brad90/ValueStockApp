@@ -7,7 +7,6 @@
   font-size: 2rem;
   padding: 2% 4% 2% 4%;
   border-radius: 100px;
-
   font-weight: bold;
 }
 
@@ -171,4 +170,31 @@
 
 .topStock{
   margin-right: 10%;
+}
+
+.about{
+  display: flex;
+  color: white;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  margin-top: 5%;
+  margin-bottom: 10%;
+  width:100% !important;
+  background-color: #21ce99;
+}
+
+.about h1{
+  padding-bottom: 3%;
+}
+
+.container-right{
+  padding-right: 5%;
+  display: inline-block;
+  width:50%;
+}
+
+.container-left{
+  padding-left: 5%;
+  display: inline-block;
+  width:50%;
 }

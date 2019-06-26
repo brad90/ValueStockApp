@@ -36,7 +36,7 @@ CompanyBoxSummary.prototype.tickerSymbol = function (company) {
 
 CompanyBoxSummary.prototype.companyName = function (company) {
   const companyName= document.createElement('h5')
-  companyName.textContent = company.companyName
+  companyName.textContent = company.companyName.substring(0,35)
   companyName.classList.add('companyName-box-summary')
   return companyName
 };

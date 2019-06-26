@@ -78,10 +78,14 @@ ViewMainPage.prototype.render = function (company) {
   const companySummaryBox = document.createElement('div')
   companySummaryBox.classList.add('companysummaryboxmain')
   const tickerSymbol = this.tickerSymbol(company)
+  const companyName = this.companyName(company)
+  const industry = this.industry(company)
   const companySummaryBoxReadMoreButton = this.companySummaryReadMoreButton(company)
   const companyEvaluationGraph = this.companyEvaluationGraph(company)
 
   companySummaryBox.appendChild(tickerSymbol)
+  companySummaryBox.appendChild(companyName)
+  companySummaryBox.appendChild(industry)
   companySummaryBox.appendChild(companyEvaluationGraph)
   companySummaryBox.appendChild(companySummaryBoxReadMoreButton)
 
@@ -95,11 +99,20 @@ ViewMainPage.prototype.tickerSymbol = function (company) {
   return tickerSymbol
 };
 
-ViewMainPage.prototype.tickerSymbol2 = function (company) {
-  const tickerSymbol2 = document.createElement('h2')
-  tickerSymbol2.textContent = company.industry
-  tickerSymbol2.classList.add('ticker-symbol-box-summary')
-  return tickerSymbol2
+ViewMainPage.prototype.companyName = function (company) {
+  const companyName= document.createElement('h5')
+  companyName.textContent = company.companyName.substring(0,35)
+  companyName.classList.add('companyName-box-summary')
+  console.log(companyName);
+  return companyName
+};
+
+ViewMainPage.prototype.industry = function (company) {
+  const industry= document.createElement('h5')
+  industry.textContent = company.sector
+  industry.classList.add('industry-box-summary')
+  console.log(industry);
+  return industry
 };
 
 ViewMainPage.prototype.companySummaryReadMoreButton = function (company) {

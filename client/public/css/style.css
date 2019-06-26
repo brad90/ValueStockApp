@@ -13,8 +13,6 @@ button{
 
 body{
   height:100%;
-  padding-left: 5%;
-  padding-right: 4%;
 }
 
 html{
@@ -42,4 +40,10 @@ h1, h2, h3, h4, h5, h6, p{
 p{
   font-size: 1.25rem;
   font-weight: 100;
+}
+
+
+.padding-sides{
+  padding-right: 5%;
+  padding-left: 5%;
 }
