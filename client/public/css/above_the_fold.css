@@ -189,6 +189,7 @@
 
 .container-right{
   padding-right: 5%;
+  padding-top: 5%;
   display: inline-block;
   width:50%;
 }
@@ -197,4 +198,8 @@
   padding-left: 5%;
   display: inline-block;
   width:50%;
+}
+
+#api-image{
+  width: 90%;
 }

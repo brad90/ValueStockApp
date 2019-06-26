@@ -53,9 +53,9 @@ CompanyBoxSummary.prototype.companySummaryReadMoreButton = function (company) {
   readMoreButton.classList.add('summaryBoxButton')
   readMoreButton.innerHTML = ('value','Read More')
   readMoreButton.value = (company._id)
-  readMoreButton.addEventListener('click',(event) => {
-    PubSub.publish("ViewBoxSummary: selected-company-single-page", event.target.value);
-  })
+  // readMoreButton.addEventListener('click',(event) => {
+  //   PubSub.publish("ViewBoxSummary: selected-company-single-page", event.target.value);
+  // })
   return readMoreButton
 };
 

@@ -2,7 +2,7 @@ const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const CompanyBoxSummary = require('./viewCompanyBox.js')
 
-const ViewCompanyGridPage = function (container, allcontainers) {
+const ViewCompanyGridPage = function (container , allcontainers) {
   this.container = container
   this.allcontainers = allcontainers
 };

@@ -32,7 +32,7 @@ GridSummaryDisplay.prototype.sortCompanies = function(companies){
 
   let number = 0
   while(number < companies.length){
-  companies.sort(function (a,b) {return parseInt(a.total_evaluation) - parseInt(b.total_evaluation)})
+  companies.sort(function (a,b) {return parseFloat(a.total_evaluation) - parseFloat(b.total_evaluation)})
   number += 1}
   return companies
 }

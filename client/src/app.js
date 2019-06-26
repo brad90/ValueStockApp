@@ -1,59 +1,79 @@
-const GetCompanyDataApi = require ('./models/getCompanyDataApi.js')
-const GridSummaryDisplay = require('./models/gridSummaryDisplay.js')
-const GetCompanyDataDB = require('./models/getCompanyDataDB.js')
-const RankingCalculations = require('./models/rankingCalculations.js')
-const SinglePage = require('./models/singlePage.js')
+//<-----------   Requiring Models   ----------->
+const GetStockDataApiModel = require ('./models/getCompanyDataApi.js')
+const GetStockDataDBModel = require('./models/getCompanyDataDB.js')
+const GridSummaryDisplayModel = require('./models/gridSummaryDisplay.js')
+const RankingCalculationsModel = require('./models/rankingCalculations.js')
 
+//<-----------   Requiring Views   ----------->
+const MainPageView = require('./views/viewMainPage.js')
+const StockGridPageView = require('./views/viewCompanyGridPage.js')
+const StockBoxView = require('./views/viewCompanyBox.js')
 
-const ViewCompanyGridPage = require('./views/viewCompanyGridPage.js')
-const ViewCompanyBox = require('./views/viewCompanyBox.js')
-const SinglePageView = require('./views/viewSinglePage.js')
-const ViewMainPage = require('./views/viewMainPage.js')
 
 
 document.addEventListener("DOMContentLoaded",() => {
 
-  const getCompanyDataDB = new GetCompanyDataDB()
-  getCompanyDataDB.bindEvents();
-
-  const keyMetrics = 'https://financialmodelingprep.com/api/v3/company-key-metrics/';
-  const growthStockInfo = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/'
-  const generalInfo = 'https://financialmodelingprep.com/api/v3/company/profile/'
-  const financials = 'https://financialmodelingprep.com/api/v3/financials/income-statement/'
+    // <-------------- Getting data from the local database ---------------- >
+    const getStockDataDB = new GetStockDataDBModel();
+    getStockDataDB.bindEvents();
 
 
-  const companyCalculationsAPI = new GetCompanyDataApi(keyMetrics, growthStockInfo, generalInfo, financials)
-  companyCalculationsAPI.bindEvents()
-  const rankingCalculations = new RankingCalculations()
-  rankingCalculations.bindEvents()
+
+    // <-------------- Getting data from the external API ---------------- >
+    const KeyMetricsStockURL = 'https://financialmodelingprep.com/api/v3/company-key-metrics/';
+    const growthInfoStockURL = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/';
+    const generalInfoStockURL = 'https://financialmodelingprep.com/api/v3/company/profile/';
+    const financialsInfoStockURL = 'https://financialmodelingprep.com/api/v3/financials/income-statement/';
+    const companyCalculationsAPI = new GetStockDataApiModel(KeyMetricsStockURL, growthInfoStockURL, generalInfoStockURL, financialsInfoStockURL);
+    companyCalculationsAPI.bindEvents();
 
 
-  const gridSummaryDisplay = new GridSummaryDisplay()
-  gridSummaryDisplay.bindEvents()
 
-  // Below: Rendering the screen with the company info.
-  const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary')
-  const viewMainPageContainerGrid = document.querySelectorAll(".company-grid-summary")
-  const viewCompanyBox = new ViewCompanyBox(companyGridBoxSummaryContainer)
-  const viewCompanyGridPage = new ViewCompanyGridPage(companyGridBoxSummaryContainer, viewMainPageContainerGrid)
-  viewCompanyGridPage.bindEvents()
+    // <-------------- Calculates company value  ---------------- >
+    const rankingCalculationsModel = new RankingCalculationsModel();
+    rankingCalculationsModel.bindEvents();
 
-
-  const viewMainPageContainerFold = document.querySelectorAll(".mainpage")
-  const viewMainPageGraphContainerFold = document.querySelectorAll("#myGraph")
-
-  const viewMainPageContainerRight = document.querySelector('#topStocks')
-  const viewMainPageContainerRightTwo = document.querySelector("#topStockstwo")
-  const viewMainPage = new ViewMainPage(viewMainPageContainerFold, viewMainPageContainerGrid,viewMainPageGraphContainerFold, viewMainPageContainerRight, viewMainPageContainerRightTwo)
-  viewMainPage.bindEvents()
+    // <-------------- Sorts the companies by value & provides data for render  ---------------- >
+    const gridSummaryDisplayModel = new GridSummaryDisplayModel();
+    gridSummaryDisplayModel.bindEvents();
 
 
-  const singlePageModel = new SinglePage()
-  singlePageModel.bindEvents()
+    // <-------------- All companies ranked in order page view  ---------------- >
+    const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary');
 
-  const container = document.querySelector('#company-single-page')
-  const summaryCompany= document.querySelector("#company-grid-summary")
-  const singlePageView = new SinglePageView(container, summaryCompany)
-  singlePageView.bindEvents()
+    const viewMainPageContainerGrid = document.querySelectorAll(".company-grid-summary");
+
+    const stockGridPageView = new StockGridPageView(companyGridBoxSummaryContainer, viewMainPageContainerGrid);
+    const stockBoxView = new StockBoxView(companyGridBoxSummaryContainer);
+    stockGridPageView.bindEvents()
+
+
+    // <-------------- Main page view  ---------------- >
+    const allMainPageItemsView = document.querySelectorAll(".mainpage");
+    const mainPageGraphView = document.querySelectorAll("#myGraph");
+
+    const mainPageContainerRightView = document.querySelector('#topStocks');
+    const viewMainPageContainerRightTwo = document.querySelector("#topStockstwo");
+    const mainPageView = new MainPageView(
+        allMainPageItemsView,
+        viewMainPageContainerGrid,
+        mainPageGraphView,
+        mainPageContainerRightView,
+        viewMainPageContainerRightTwo
+    );
+    mainPageView.bindEvents();
+
+
+
+
+
+    // <-------------- Extensions to project if time found  ---------------- >
+    // const singlePageModel = new SinglePage()
+    // singlePageModel.bindEvents()
+
+    // const container = document.querySelector('#company-single-page')
+    // const summaryCompany= document.querySelector("#company-grid-summary")
+    // const singlePageView = new SinglePageView(container, summaryCompany)
+    // singlePageView.bindEvents()
 
 });

@@ -49,51 +49,70 @@
 
   <div class="padding-sides mainpage sponsors">
     <image class="mainpage" src = "./images/bi.png" id="bi">
-    <image class="mainpage" src = "./images/ft.png" id="ft">
-    <image class="mainpage" src = "./images/te.png" id="te">
-  </div>
+      <image class="mainpage" src = "./images/ft.png" id="ft">
+        <image class="mainpage" src = "./images/te.png" id="te">
+        </div>
 
-  <div class="mainpage about">
-    <div class ="mainpage container-left"></div>
-    <div class ="mainpage container-right ">
-      <h1>How it works?</h1>
-      <p> We take live and historical data from companies on the <strong>NYSE</strong> and the <strong>NasDaq</strong> and run
-        calculations on that data based on parameters used by investors to calculate undervalued stocks.
-        <br>
-        <br>
-        For example, a good Price to Earning
-        ratio is in general is around 25. We subtract this base value from the companies value and save the difference. We do the same for all
-        the other ratios and add them up. The closer to 0, the closer that company's data meets our criteria.
-      </p>
-    </div>
-  </div>
+        <div class="mainpage about">
+          <div class ="mainpage container-left">
+            <!-- <image class="mainpage" src = "./images/api.png" id="api-image"> -->
+            <pre><strong><p>
+              {
+              "symbol": "aapl",
+                  "metrics": [
+                    {
+                      "date": "2018-09-29",
+                      "Revenue per Share": "53.5973",
+                      "Net Income per Share": "12.0134",
+                      "Operating Cash Flow per Share": "15.6263",
+                      "Free Cash Flow per Share": "12.94",
+                      "Cash per Share": "5.2293",
+                      "Book Value per Share": "22.315",
+                      "Tangible Book Value per Share": "76.168",
+                      "Shareholders Equity per Share": "21.6224",
+                    }]
+                  }
+              </p></strong></pre>
+            </div>
+            <div class ="mainpage container-right ">
+              <h1>How it works?</h1>
+              <p> We take live and historical data from companies on the <strong>NYSE</strong> and the <strong>NASDAQ</strong> and run
+                calculations on that data based on parameters used by investors to calculate undervalued stocks.
+                <br>
+                <br>
+                For example, a good Price to Earning
+                ratio is in general is around 25. We subtract this base value from the companies value and save the difference. We do the same for all
+                the other ratios and add them up. The closer to 0, the closer that company's data meets our criteria.
+              </p>
+            </div>
+          </div>
 
-    <!-- Grid Display  -->
-
-
-    <div class = "selector-header visibility-hidden company-grid-summary">
-    <h1> Narrow your search, select a sector...</h1>
-    </div>
-
-    <div class="selector-dropdown visibility-hidden company-grid-summary">
-    <select class="company-grid-summary select" id="selector">
-      <option value="All">All</option>
-      <option value="Technology">Technology</option>
-      <option value="Real Estate">Real Estate</option>
-      <option value="Financial Services">Financial Services</option>
-      <option value="Healthcare">Healthcare</option>
-      <option value="Consumer Defensive">Consumer Defensive</option>
-      <option value="Industrials">Industrials</option>
-      <option value="Communication Services">Communication Services</option>
-      <option value="Utilities">Utilities</option>
-      <option value="Consumer Cyclical">Consumer Cyclical</option>
-    </select>
-    </div>
-
-
-    <div  class="visibility-hidden company-grid-summary padding-sides" id="company-grid-summary"></div>
-    <div  class="visibility-hidden" id="company-single-page"></div>
+          <!-- Grid Display  -->
 
 
-  </body>
-  </html>
+          <div class = "selector-header visibility-hidden company-grid-summary">
+            <h1> Narrow your search, select a sector...</h1>
+          </div>
+
+          <div class="selector-dropdown visibility-hidden company-grid-summary">
+            <select class="company-grid-summary select" id="selector">
+              <option value="All">All</option>
+              <option value="Technology">Technology</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Financial Services">Financial Services</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Consumer Defensive">Consumer Defensive</option>
+              <option value="Industrials">Industrials</option>
+              <option value="Communication Services">Communication Services</option>
+              <option value="Utilities">Utilities</option>
+              <option value="Consumer Cyclical">Consumer Cyclical</option>
+            </select>
+          </div>
+
+
+          <div  class="visibility-hidden company-grid-summary padding-sides" id="company-grid-summary"></div>
+          <div  class="visibility-hidden" id="company-single-page"></div>
+
+
+        </body>
+        </html>
