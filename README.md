@@ -27,4 +27,8 @@ If you are to download and run this application. The seed file has 440 and will 
 
 <img width="1280" alt="img2" src="https://user-images.githubusercontent.com/25672243/60772602-dead3800-a0f0-11e9-8a32-a6bf9def8519.png">
 
+<img width="1271" alt="img3" src="https://user-images.githubusercontent.com/25672243/60772606-f389cb80-a0f0-11e9-990f-343e133f21cb.png">
+
+<img width="1280" alt="img4" src="https://user-images.githubusercontent.com/25672243/60772609-f71d5280-a0f0-11e9-98c7-fc1e2d15ddfe.png">
+
 
