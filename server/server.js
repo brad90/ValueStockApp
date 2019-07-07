@@ -38,6 +38,8 @@ app.use(bodyParser.json());
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
+let MONGODB_URI = 'mongodb://heroku_qcn0j2rv:r4cv6kjmmbnbkuqa9qd7phcser@ds245387.mlab.com:45387/heroku_qcn0j2rv'
+
 // Connect to the database before starting the application server.
 mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/test", function (err, client) {
   if (err) {
