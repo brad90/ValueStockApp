@@ -18,6 +18,7 @@ RankingCalculations.prototype.bindEvents = function(){
 RankingCalculations.prototype.isTheStockGoodOrBad = function(){
     PubSub.subscribe("fullcompanyinfo", (event) => {
         const allCompanies = event.detail
+    
         let totalNumberOfCompanies = allCompanies.length
 
         allCompanies.forEach(data => {

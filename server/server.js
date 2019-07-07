@@ -28,8 +28,9 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
+const createRouter = require('./helpers/create_router.js');
 
-var CONTACTS_COLLECTION = "contacts";
+var STOCKS_COLLECTION = "stocks";
 
 var app = express();
 app.use(bodyParser.json());
@@ -44,6 +45,8 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
     process.exit(1);
   }
 
+
+
   // Save database object from the callback for reuse.
   db = client.db();
   console.log("Database connection ready");
@@ -56,3 +59,36 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
 });
 
 // CONTACTS API ROUTES BELOW
+
+app.get("/api/stocks", function(req, res) {
+    db.collection(STOCKS_COLLECTION).find({}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get stocks.");
+    } else {
+      res.status(200).json(docs);
+    }
+  })
+});
+
+app.post("/api/stocks", function(req, res) {
+  var newContact = req.body;
+  newContact.createDate = new Date();
+
+  if (!req.body.name) {
+    handleError(res, "Invalid user input", "Must provide a name.", 400);
+  } else {
+    db.collection(STOCKS_COLLECTION).insertOne(newContact, function(err, doc) {
+      if (err) {
+        handleError(res, err.message, "Failed to create new contact.");
+      } else {
+        res.status(201).json(doc.ops[0]);
+      }
+    });
+  }
+});
+
+app.get("/api/stocks/:id", function(req, res) {
+});
+
+app.patch("/api/stocks/:id", function(req, res) {
+});

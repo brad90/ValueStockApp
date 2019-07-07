@@ -13,13 +13,13 @@ const StockBoxView = require('./views/viewCompanyBox.js')
 
 document.addEventListener("DOMContentLoaded",() => {
 
-    // <-------------- Getting data from the local database ---------------- >
+    // <-------------- Get data from the local database ---------------- >
     const getStockDataDB = new GetStockDataDBModel();
     getStockDataDB.bindEvents();
 
 
 
-    // <-------------- Getting data from the external API ---------------- >
+    // <-------------- Get data from the external API ---------------- >
     const KeyMetricsStockURL = 'https://financialmodelingprep.com/api/v3/company-key-metrics/';
     const growthInfoStockURL = 'https://financialmodelingprep.com/api/v3/financial-statement-growth/';
     const generalInfoStockURL = 'https://financialmodelingprep.com/api/v3/company/profile/';
@@ -29,16 +29,16 @@ document.addEventListener("DOMContentLoaded",() => {
 
 
 
-    // <-------------- Calculates company value  ---------------- >
+    // <-------------- Calculate company value  ---------------- >
     const rankingCalculationsModel = new RankingCalculationsModel();
     rankingCalculationsModel.bindEvents();
 
-    // <-------------- Sorts the companies by value & provides data for render  ---------------- >
+    // <-------------- Sort the companies by value & provides data for render  ---------------- >
     const gridSummaryDisplayModel = new GridSummaryDisplayModel();
     gridSummaryDisplayModel.bindEvents();
 
 
-    // <-------------- All companies ranked in order page view  ---------------- >
+    // <-------------- Rank companies  in order page view  ---------------- >
     const companyGridBoxSummaryContainer = document.querySelector('#company-grid-summary');
     const allGridItemsView = document.querySelectorAll(".company-grid-summary");
 

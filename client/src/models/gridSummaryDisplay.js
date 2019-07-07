@@ -4,6 +4,8 @@ const PubSub = require('../helpers/pub_sub.js')
 const RequestHelper = require('../helpers/request_helper.js')
 const GetCompanyDataDB = require('./getCompanyDataDB.js')
 
+let allCompanies
+
 const GridSummaryDisplay = function () {
     this.request = new RequestHelper('http://localhost:3000/api/stocks')
 };
@@ -11,7 +13,8 @@ const GridSummaryDisplay = function () {
 GridSummaryDisplay.prototype.bindEvents = function(){
     let numberOfPublishes = 0
     PubSub.subscribe("fullCompanyInfoWithTotal", (event) => {
-        const allCompanies = event.detail
+        allCompanies = event.detail
+        
         const noNullValues = [];
         for(company in allCompanies){
             if(allCompanies[company].total_evaluation != null){
