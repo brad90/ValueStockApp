@@ -10,7 +10,6 @@ const StockGridPageView = require('./views/viewCompanyGridPage.js')
 const StockBoxView = require('./views/viewCompanyBox.js')
 
 
-
 document.addEventListener("DOMContentLoaded",() => {
 
     // <-------------- Get data from the local database ---------------- >
