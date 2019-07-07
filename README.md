@@ -23,4 +23,4 @@ Note:
 
 If you are to download and run this application. The seed file has 440 and will take some time to make all API requests and patch them back to the DB. In a real life and a more advanced project this would not be the case.
 
-![Screenshot](Img1.jpg)
+<img src="img1" width="350" title="hover text">
