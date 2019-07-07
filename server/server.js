@@ -27,7 +27,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
-var ObjectID = mongodb.ObjectID;
+const MongoClient = require('mongodb').MongoClient
 const createRouter = require('./helpers/create_router.js');
 
 var STOCKS_COLLECTION = "stocks";
@@ -38,7 +38,8 @@ app.use(bodyParser.json());
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
-let MONGODB_URI = 'mongodb://heroku_qcn0j2rv:r4cv6kjmmbnbkuqa9qd7phcser@ds245387.mlab.com:45387/heroku_qcn0j2rv'
+
+// let MONGODB_URI = 'mongodb://heroku_qcn0j2rv:r4cv6kjmmbnbkuqa9qd7phcser@ds245387.mlab.com:45387/heroku_qcn0j2rv'
 
 // Connect to the database before starting the application server.
 mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/test", function (err, client) {
@@ -94,3 +95,7 @@ app.get("/api/stocks/:id", function(req, res) {
 
 app.patch("/api/stocks/:id", function(req, res) {
 });
+
+
+const port = process.env.PORT || 3000;
+app.listen(port);
