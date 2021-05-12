@@ -27,7 +27,7 @@
   "dependencies": {
     "apexcharts": "^3.8.1",
     "body-parser": "^1.19.0",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "express": "^4.17.1",
     "mongod": "^2.0.0",
     "mongodb": "^3.2.7"
